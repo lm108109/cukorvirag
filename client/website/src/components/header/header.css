@@ -1,0 +1,60 @@
+.Header {
+  height: 100px; /* Set the height of the header to match the image height */
+  box-sizing: border-box;
+  background-color: #ebd6d2; /* Ensure the background matches */
+  position: fixed; /* Fix header at the top */
+  top: 0;
+  left: 0;
+  width: 100%; /* Ensure header spans the full width */
+  z-index: 1000; /* Ensure the header stays above the content */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-sizing: border-box; /* Ensure padding doesn't add to the width */
+}
+
+.FirstNav,
+.SecondNav {
+  flex: 1;
+}
+
+.Image-container img {
+  display: block; /* Removes any extra space caused by the image being inline */
+  margin: 0; /* Removes any default margin */
+  padding: 0; /* Removes any default padding */
+  border: 1px solid black;
+}
+
+.HeaderImage {
+  max-width: auto; /* Adjust as needed */
+  max-height: 100px;
+}
+
+.Navbar {
+  display: flex;
+  justify-content: space-around;
+}
+
+.ListElement {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  font-size: 24;
+}
+
+.Routerbutton {
+  margin-right: 15px;
+  margin-left: 15px;
+  font-size: 18px;
+}
+
+.Routerbutton a {
+  text-decoration: none;
+  color: black;
+}
+
+.Routerbutton .active {
+  text-decoration: underline;
+}

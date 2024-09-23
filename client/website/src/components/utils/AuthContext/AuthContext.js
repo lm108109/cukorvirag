@@ -4,7 +4,7 @@ const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
-  const [user, setuser] = useState(false);
+  const [user, setuser] = useState(true);
 
   useEffect(() => {
     setLoading(false);

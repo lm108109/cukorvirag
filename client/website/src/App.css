@@ -1,0 +1,15 @@
+/* App.css or Global Styles */
+.App {
+  display: flex;
+  flex-direction: column;
+  height: 100vh; /* Full viewport height */
+}
+
+.main-content {
+  margin-top: 100px; /* Add margin equal to the header's height */
+  flex-grow: 1; /* Take up the remaining space */
+  overflow-y: auto; /* Enable scrolling within the content */
+  display: flex;
+  flex-direction: column;
+  background-color: #f9f5f2;
+}
