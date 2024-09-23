@@ -1,0 +1,72 @@
+/* Ensure the page does not scroll and takes up full height */
+html,
+body,
+.login-container {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden; /* Prevent scrolling */
+  font-family: 'Josefin Slab', serif; /* Applying the font globally */
+}
+
+/* Wrapper to center the form */
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Full height of the viewport */
+  background-color: #f8f3ee;
+}
+
+/* Make the login box larger */
+.login-box {
+  width: 400px; /* Increased width */
+  padding: 60px 40px; /* Increased padding for a larger feel */
+  background-color: #ebd6d2;
+  border-radius: 15px;
+  box-sizing: border-box;
+  font-family: 'Josefin Slab', serif; /* Applying the font to the login box */
+}
+
+/* Text alignment for the title */
+.login-box h2 {
+  text-align: center;
+  margin-bottom: 30px;
+  font-family: 'Josefin Slab', serif; /* Ensure it's applied here */
+  font-size: 28px; /* Slightly larger font for the title */
+  color: #5e4e4c;
+  font-weight: 400;
+}
+
+/* Input and button sizing - Adjusted for larger form */
+.login-box input[type='text'],
+.login-box input[type='password'],
+.login-box button {
+  width: 100%;
+  padding: 15px; /* Increased padding for inputs */
+  margin: 15px 0;
+  border: none;
+  background-color: #f9f5f2;
+  border-radius: 10px;
+  box-sizing: border-box;
+  font-size: 18px; /* Larger font for inputs */
+  font-family: 'Josefin Slab', serif; /* Apply the font to inputs */
+}
+
+/* Button styling */
+/* Button styling */
+.login-box button {
+  width: 40%; /* Reduce button width */
+  padding: 10px; /* Add padding for better spacing */
+  margin: 20px auto; /* Center the button and add some margin */
+  display: block; /* Make it a block-level element */
+  background-color: #f9f5f2;
+  border: 1px solid #b2a09f;
+  border-radius: 30px; /* More rounded corners */
+  font-size: 18px;
+}
+
+/* Button hover effect */
+.login-box button:hover {
+  background-color: #dfbbb0;
+}
