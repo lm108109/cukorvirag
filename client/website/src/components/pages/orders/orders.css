@@ -1,11 +1,11 @@
 .orders-container {
     width: auto;
     height: 100%;
-    margin: 50px 50px 50px 50px ;
+    margin: 50px 80px 70px 80px;
     background-color: #F7EFEE;
     display: flex;
     flex-direction: column;
-    overflow-x:auto;
+    overflow-x: auto;
     border-radius: 10px;
     position: relative;
 }
@@ -54,3 +54,27 @@
 .ready-container {
     border-right: none;
 }
+
+/* Floating button style */
+.floating-button {
+    position: fixed;
+    bottom: 5px;  /* Closer to the bottom */
+    left: 5px;    /* Closer to the left */
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background-color: f9f5f2;
+    border: 2px solid #000;
+    font-size: 24px;
+    color: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.floating-button:hover {
+    background-color: #f0f0f0;
+} 

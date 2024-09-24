@@ -15,7 +15,7 @@ function Orders() {
         <div className='ready-container'></div>
       </div>
       <div>
-        <button>+</button>
+        <button className="floating-button">+</button>
       </div>
     </div>
   );
