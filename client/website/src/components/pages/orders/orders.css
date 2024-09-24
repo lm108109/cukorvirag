@@ -1,0 +1,56 @@
+.orders-container {
+    width: auto;
+    height: 100%;
+    margin: 50px 50px 50px 50px ;
+    background-color: #F7EFEE;
+    display: flex;
+    flex-direction: column;
+    overflow-x:auto;
+    border-radius: 10px;
+    position: relative;
+}
+
+/* Header styles */
+.header-for-children {
+    display: flex;
+    justify-content: space-between;
+    margin: 0px;
+    background-color: #F7EFEE;
+}
+
+.header-item {
+    flex: 1;
+    text-align: center;
+    font-weight: bold;
+    border-right: 2px solid black;
+    border-bottom: 2px solid black;
+    margin: 0px;
+    padding: 20px;
+    font-size: 24px;
+}
+
+/* Remove border from the last header item */
+.header-item:last-child {
+    border-right: none;
+}
+
+/* Main content styles */
+.content-container {
+    display: flex;
+    height: 100%;
+    width: auto;
+    margin: 0px;
+}
+
+/* Column containers */
+.processing-container, .about-container, .ready-container {
+    flex: 1;
+    background-color: #FFF;
+    border-right: 2px solid black;
+    width: 32%;
+}
+
+/* Remove right border from the last content column */
+.ready-container {
+    border-right: none;
+}
