@@ -2,10 +2,11 @@
     width: auto;
     height: 100%;
     margin: 50px 80px 70px 80px;
-    background-color: #F7EFEE;
+    background-color: #f7efee;
     display: flex;
     flex-direction: column;
     overflow-x: auto;
+    overflow-y: hidden;
     border-radius: 10px;
     position: relative;
 }
@@ -15,7 +16,7 @@
     display: flex;
     justify-content: space-between;
     margin: 0px;
-    background-color: #F7EFEE;
+    background-color: #f7efee;
 }
 
 .header-item {
@@ -43,11 +44,15 @@
 }
 
 /* Column containers */
-.processing-container, .about-container, .ready-container {
+.processing-container,
+.about-container,
+.ready-container {
     flex: 1;
-    background-color: #FFF;
+    background-color: #fff;
     border-right: 2px solid black;
     width: 32%;
+    height: 650px;
+    overflow-y: auto;
 }
 
 /* Remove right border from the last content column */
@@ -58,8 +63,8 @@
 /* Floating button style */
 .floating-button {
     position: fixed;
-    bottom: 5px;  /* Closer to the bottom */
-    left: 5px;    /* Closer to the left */
+    bottom: 5px; /* Closer to the bottom */
+    left: 5px; /* Closer to the left */
     width: 70px;
     height: 70px;
     border-radius: 50%;
@@ -77,4 +82,4 @@
 
 .floating-button:hover {
     background-color: #f0f0f0;
-} 
+}
