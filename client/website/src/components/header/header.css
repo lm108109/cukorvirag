@@ -1,0 +1,82 @@
+.Header {
+    height: 100px;
+    box-sizing: border-box;
+    background-color: #ebd6d2;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+.FirstNav,
+.SecondNav {
+    flex: 1;
+}
+
+.Image-container img {
+    display: block;
+    margin: 0;
+    padding: 0;
+    border: 1px solid black;
+}
+
+.HeaderImage {
+    max-width: 150px; /* Adjust as needed */
+    max-height: 100px;
+}
+
+.Navbar {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.ListElement {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    font-size: 1.5rem;
+}
+
+.Routerbutton {
+    margin-right: 15px;
+    margin-left: 15px;
+    font-size: 1.125rem;
+}
+
+.Routerbutton a {
+    text-decoration: none;
+    color: black;
+}
+
+.Routerbutton .active {
+    text-decoration: underline;
+}
+
+/* Added responsive styles */
+@media (max-width: 768px) {
+    .Header {
+        flex-direction: column; /* Stack elements vertically on smaller screens */
+        height: auto; /* Let the header height adjust based on content */
+        padding: 10px; /* Added padding for smaller screens */
+    }
+
+    .HeaderImage {
+        max-width: 100px; /* Reduced image size for smaller screens */
+    }
+
+    .Navbar {
+        flex-direction: column; /* Stack navigation links vertically */
+    }
+
+    .Routerbutton {
+        margin: 0px 10px; /* Adjusted margins for smaller screens */
+    }
+}
