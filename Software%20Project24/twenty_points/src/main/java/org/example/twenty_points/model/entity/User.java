@@ -47,7 +47,7 @@ public class User implements Serializable, UserDetails {
     private Role role;
 
     public boolean getActive() {
-        return active;
+        return true;
     }
 
     @Override
