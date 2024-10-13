@@ -60,9 +60,9 @@ public class AuthServiceImpl implements AuthService {
         User user = userRepository.findByUsername(req.getUsername())
                 .orElseThrow(() -> new RuntimeException("Hibás felhasználónév vagy jelszó"));
 
-//        if (!passwordEncoder.matches(req.getPassword(), user.getPassword())) {
-//            throw new RuntimeException("Hibás felhasználónév vagy jelszó");
-//        }
+        if (!passwordEncoder.matches(req.getPassword(), user.getPassword())) {
+            throw new RuntimeException("Hibás felhasználónév vagy jelszó");
+        }
         return user;
     }
 
