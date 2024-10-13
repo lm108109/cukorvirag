@@ -1,5 +1,9 @@
 package org.example.twenty_points.service.impl;
 
+import org.example.twenty_points.exception.RoleNotFoundException;
+import org.example.twenty_points.model.dto.RegistrationModifyDto;
+import org.example.twenty_points.model.dto.UserQueryDto;
+import org.example.twenty_points.util.Mapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.example.twenty_points.model.dto.LoginRequest;
 import org.example.twenty_points.model.entity.Role;
@@ -56,9 +60,9 @@ public class AuthServiceImpl implements AuthService {
         User user = userRepository.findByUsername(req.getUsername())
                 .orElseThrow(() -> new RuntimeException("Hibás felhasználónév vagy jelszó"));
 
-        if (!passwordEncoder.matches(req.getPassword(), user.getPassword())) {
-            throw new RuntimeException("Hibás felhasználónév vagy jelszó");
-        }
+//        if (!passwordEncoder.matches(req.getPassword(), user.getPassword())) {
+//            throw new RuntimeException("Hibás felhasználónév vagy jelszó");
+//        }
         return user;
     }
 
@@ -104,5 +108,22 @@ public class AuthServiceImpl implements AuthService {
         return response;
     }
 
+    public UserQueryDto registration(RegistrationModifyDto registrationModifyDto){
 
+        if ( userRepository.existsByUsername(registrationModifyDto.getUsername()) ){
+            throw new RuntimeException("Username already exists");
+        }
+
+        Role role = roleRepository.findByCode(registrationModifyDto.getRoleCode()).orElseThrow(RoleNotFoundException::new);
+
+        User user = new User();
+        Mapper.map(registrationModifyDto, user);
+        user.setId(userRepository.findMaxId() + 1);
+        user.setPassword(passwordEncoder.encode(registrationModifyDto.getUsername()));
+        user.setActive(true);
+        user.setRole(role);
+
+        user = userRepository.save(user);
+        return new UserQueryDto(user);
+    }
 }

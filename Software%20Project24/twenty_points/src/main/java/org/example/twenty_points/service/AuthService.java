@@ -10,5 +10,5 @@ public interface AuthService {
 
     LoginResponse authLogin(@Valid LoginRequest req);
 
-    //UserQueryDto registration(RegistrationModifyDto registrationModifyDto);
+    UserQueryDto registration(RegistrationModifyDto registrationModifyDto);
 }

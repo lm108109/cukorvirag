@@ -10,6 +10,8 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.header.writers.StaticHeadersWriter;
@@ -35,15 +37,27 @@ public class SecurityConfig {
                 .cors(Customizer.withDefaults())
                 .httpBasic(Customizer.withDefaults())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(new AntPathRequestMatcher("/rest/auth/login")).permitAll()
-                        .requestMatchers(new AntPathRequestMatcher("/swagger-ui/**")).permitAll()
-                        .requestMatchers(new AntPathRequestMatcher("/rest/auth/registration")).permitAll()
+                                .requestMatchers(new AntPathRequestMatcher("/rest/auth/login")).permitAll()
+                                .requestMatchers(new AntPathRequestMatcher("/swagger-ui/**")).permitAll()
+                                .requestMatchers(new AntPathRequestMatcher("/v3/api-docs/**")).permitAll()
+//                        .requestMatchers(new AntPathRequestMatcher("/swagger-resources/**")).permitAll()
+//                        .requestMatchers(new AntPathRequestMatcher("/webjars/**")).permitAll()
+                                .requestMatchers(new AntPathRequestMatcher("/swagger-ui.html")).permitAll()
+                                .requestMatchers(new AntPathRequestMatcher("/rest/auth/registration")).permitAll()
+//                        .requestMatchers(new AntPathRequestMatcher("/error")).permitAll()
+                                .anyRequest().authenticated()
                 )
+
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .exceptionHandling(handler -> handler.authenticationEntryPoint(entryPoint))
                 .addFilterAfter(authFilter, UsernamePasswordAuthenticationFilter.class);
-        http.headers(header -> header.addHeaderWriter(new StaticHeadersWriter("Access-Control-Expose", "*")));
+        http.headers(header -> header.addHeaderWriter(new StaticHeadersWriter("Access-Control-Expose-Headers", "*")));
         http.headers(header -> header.cacheControl(Customizer.withDefaults()));
         return http.build();
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 }

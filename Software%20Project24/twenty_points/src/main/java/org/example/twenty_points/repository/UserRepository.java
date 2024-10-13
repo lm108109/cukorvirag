@@ -17,4 +17,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     boolean existsByUsername(String username);
 
+    @Query(nativeQuery = true, value = "select max(id) from users")
+    Long findMaxId();
+
 }
