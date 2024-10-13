@@ -5,7 +5,7 @@ import { useAuth } from '../utils/AuthContext/AuthContext'
 function Header() {
     const { user } = useAuth()
     return (
-        <div className="w-full fixed top-0 left-0 z-1000 bg-[#ebd6d2] p-4 h-[160px] md:h-[120px] flex flex-col md:flex-row justify-between items-center">
+        <div className="w-full fixed top-0 left-0 z-1000 bg-header-bg-color p-4 h-[160px] md:h-[120px] flex flex-col md:flex-row justify-between items-center">
             <header className="w-full flex flex-col md:flex-row justify-between items-center">
                 {/* First Navigation (Links on the Left) */}
                 <div className="flex-1 w-full md:w-auto mb-4 md:mb-0">
