@@ -3,7 +3,7 @@ import NavRoutes from '../utils/navroutes/navroutes'
 
 function MainContent() {
     return (
-        <div className="flex-grow mt-[160px] md:mt-[130px] flex flex-col bg-[#f9f5f2] overflow-y-auto">
+        <div className="flex-grow mt-[160px] md:mt-[120px] flex flex-col main-bg overflow-y-auto">
             <NavRoutes />
         </div>
     )

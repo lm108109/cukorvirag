@@ -10,6 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "cukorvirag": "file:",
     "react-beautiful-dnd": "^13.1.1",
     "react-router-dom": "^6.26.2",
     "react-scripts": "^5.0.1",
