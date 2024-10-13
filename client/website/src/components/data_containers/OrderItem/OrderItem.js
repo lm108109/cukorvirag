@@ -1,20 +1,19 @@
 // OrderItem.js
 import React from 'react'
-import './OrderItem.css'
 
 const OrderItem = ({ sweetName, quantity, price, process }) => {
     return (
-        <div className="order-container">
-            <div className="elements">
-                <h3>{sweetName}</h3>
+        <div className="bg-orders-item rounded-lg p-4 mb-4">
+            <div className="mb-1">
+                <h3 className="text-lg font-bold">{sweetName}</h3>
             </div>
-            <div className="elements">
+            <div className="mb-1">
                 <p>Quantity: {quantity}</p>
             </div>
-            <div className="elements">
+            <div className="mb-1">
                 <p>Price: ${price}</p>
             </div>
-            <div className="elements">
+            <div>
                 <p>Process: {process}</p>
             </div>
         </div>
