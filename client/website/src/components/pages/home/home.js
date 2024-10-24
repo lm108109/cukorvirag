@@ -1,46 +1,43 @@
-import React, { useState, useEffect } from 'react';
-import './home.css';
+import React, { useState, useEffect } from 'react'
 
 const Home = () => {
-  const [time, setTime] = useState('');
-  const [date, setDate] = useState('');
+    const [time, setTime] = useState('')
+    const [date, setDate] = useState('')
 
-  useEffect(() => {
-    const updateTimeAndDate = () => {
-      const now = new Date();
-      const hours = String(now.getHours()).padStart(2, '0');
-      const minutes = String(now.getMinutes()).padStart(2, '0');
-      const day = String(now.getDate()).padStart(2, '0');
-      let month = now.toLocaleString('hu-HU', { month: 'long' });
-      month = month.charAt(0).toUpperCase() + month.slice(1);
-      const year = now.getFullYear();
+    useEffect(() => {
+        const updateTimeAndDate = () => {
+            const now = new Date()
+            const hours = String(now.getHours()).padStart(2, '0')
+            const minutes = String(now.getMinutes()).padStart(2, '0')
+            const day = String(now.getDate()).padStart(2, '0')
+            let month = now.toLocaleString('hu-HU', { month: 'long' })
+            month = month.charAt(0).toUpperCase() + month.slice(1)
+            const year = now.getFullYear()
 
-      setTime(`${hours}:${minutes}`);
-      setDate(`${year}. ${month} ${day}.`);
-    };
+            setTime(`${hours}:${minutes}`)
+            setDate(`${year}. ${month} ${day}.`)
+        }
 
-    // Initial call to set the time and date right away
-    updateTimeAndDate();
+        updateTimeAndDate()
+        const intervalId = setInterval(updateTimeAndDate, 1000)
 
-    // Update the time every second
-    const intervalId = setInterval(updateTimeAndDate, 1000);
+        return () => clearInterval(intervalId)
+    }, [])
 
-    // Clean up the interval on component unmount
-    return () => clearInterval(intervalId);
-  }, []);
+    return (
+        <div className="flex flex-col items-center justify-center h-screen bg-[#fdf8f5] text-[#2b2b2b] font-josefin-slab">
+            <div className="text-center mb-5">
+                <h1 className="text-[100px] font-light m-0">{time}</h1>
+                <p className="text-[30px] m-0">{date}</p>
+            </div>
+            <div className="italic font-bold text-center max-w-xs text-[22px] leading-relaxed mt-5">
+                <p>“Édes pillanatok, melyek virágba borítják a napodat!”</p>
+            </div>
+            <button className="absolute bottom-5 left-5 w-[50px] h-[50px] text-[30px] border-2 border-black rounded-full flex items-center justify-center hover:bg-gray-300">
+                +
+            </button>
+        </div>
+    )
+}
 
-  return (
-    <div className="home-container">
-      <div className="time-container">
-        <h1>{time}</h1>
-        <p>{date}</p>
-      </div>
-      <div className="quote-container">
-        <p>“Édes pillanatok, melyek virágba borítják a napodat!”</p>
-      </div>
-      <button className="plus-button">+</button>
-    </div>
-  );
-};
-
-export default Home;
+export default Home
