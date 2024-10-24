@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import WarehouseItem from '../../data_containers/WarehouseItem/WarehouseItem'
-import './warehouse.css'
 
 function Warehouse() {
     const [sortOrder, setSortOrder] = useState('desc')
@@ -36,24 +35,24 @@ function Warehouse() {
     }
 
     return (
-        <div className="all-container">
-            <div className="header-container">
-                <div className="header-item-container">
-                    <div className="item">Megnevezés</div>
+        <div className="m-12 p-4 bg-gray-100 rounded-lg flex flex-col">
+            <div className="border-b-2 border-black w-full flex justify-between text-xl py-2">
+                <div className="flex items-center">
+                    <div className="mr-2">Megnevezés</div>
                     <span
-                        className={`arrow ${sortOrder}`}
+                        className={`cursor-pointer ml-2 ${sortOrder === 'desc' ? 'arrow-down' : 'arrow-up'}`}
                         onClick={sortRecipes}
                     >
                         {sortOrder === 'desc' ? '▼' : '▲'}
                     </span>
                 </div>
-                <div className="header-item-container">
-                    <div className="item">Mennyiség</div>
+                <div className="flex items-center">
+                    <div className="mr-2">Mennyiség</div>
                 </div>
             </div>
-            <div className="list-container">
+            <div className="flex-grow w-full h-96 overflow-y-auto bg-gray-100">
                 {sortedData.length > 0 ? (
-                    <div className="recipe-list">
+                    <div className="list-none">
                         {sortedData.map((item, index) => (
                             <WarehouseItem
                                 key={index}
@@ -63,7 +62,7 @@ function Warehouse() {
                         ))}
                     </div>
                 ) : (
-                    <div className="no-recipes">
+                    <div className="text-center">
                         Nincsenek a keresésnek megfelelő receptek
                     </div>
                 )}
