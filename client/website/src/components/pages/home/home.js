@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react'
+import SaveOrder from '../../modal/saveorder'
 
 const Home = () => {
     const [time, setTime] = useState('')
     const [date, setDate] = useState('')
+    const [isModalOpen, setIsModalOpen] = useState(false)
 
     useEffect(() => {
         const updateTimeAndDate = () => {
@@ -24,6 +26,8 @@ const Home = () => {
         return () => clearInterval(intervalId)
     }, [])
 
+    const toggleModal = () => setIsModalOpen(!isModalOpen)
+
     return (
         <div className="flex flex-col items-center justify-center h-screen bg-[#fdf8f5] text-[#2b2b2b] font-josefin-slab">
             <div className="text-center mb-5">
@@ -33,9 +37,15 @@ const Home = () => {
             <div className="italic font-bold text-center max-w-xs text-[22px] leading-relaxed mt-5">
                 <p>“Édes pillanatok, melyek virágba borítják a napodat!”</p>
             </div>
-            <button className="absolute bottom-5 left-5 w-[50px] h-[50px] text-[30px] border-2 border-black rounded-full flex items-center justify-center hover:bg-gray-300">
+            <button
+                onClick={toggleModal}
+                className="absolute bottom-5 left-5 w-[50px] h-[50px] text-[30px] border-2 border-black rounded-full flex items-center justify-center hover:bg-gray-300"
+            >
                 +
             </button>
+
+            {/* Modal component, rendered conditionally */}
+            {isModalOpen && <SaveOrder onClose={toggleModal} />}
         </div>
     )
 }
