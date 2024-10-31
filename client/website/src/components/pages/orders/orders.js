@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import './orders.css'
 import OrderItem from '../../data_containers/OrderItem/OrderItem'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 import SaveOrder from '../../modal/saveorder'
