@@ -59,6 +59,47 @@ public class AuthFilter extends OncePerRequestFilter {
 
         jwtSession.remove();
     }
+//    @Override
+//    protected void doFilterInternal(HttpServletRequest request,
+//                                    HttpServletResponse response,
+//                                    FilterChain filterChain) throws ServletException, IOException {
+//        final String authToken = request.getHeader(AUTH_HEADER);
+//
+//        if (authToken == null || !authToken.startsWith("Bearer ")) {
+//            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Missing or malformed Authorization header");
+//            return;
+//        }
+//
+//        if (!jwtService.verifyJWTToken(authToken)) {
+//            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid or expired JWT token");
+//            return;
+//        }
+//
+//        Session session = getSessionFromToken(authToken);
+//        if (session == null) {
+//            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Session not found");
+//            return;
+//        }
+//
+//        if (session.getExpirationDate().isBefore(LocalDateTime.now())) {
+//            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Session has expired");
+//            return;
+//        }
+//
+//        JwtUser user = new JwtUser(session.getUser(), session.getRole());
+//        if (!user.isEnabled()) {
+//            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "User is not enabled");
+//            return;
+//        }
+//
+//        var auth = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
+//
+//        SecurityContextHolder.getContext().setAuthentication(auth);
+//        logger.info("User authorities: " + SecurityContextHolder.getContext().getAuthentication().getAuthorities());
+//
+//        filterChain.doFilter(request, response);
+//    }
+
 
     private Session getSessionFromToken(String authToken) {
         Long sessionId = jwtService.getSubjectFromToken(authToken);

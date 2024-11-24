@@ -7,6 +7,12 @@ import org.springframework.security.core.Authentication;
 
 public interface LogoutService {
 
+    /**
+     *
+     * @param req - request
+     * @param res - response
+     * @param auth - authentication
+     */
     void logout(HttpServletRequest req, HttpServletResponse res, Authentication auth);
 
 }
