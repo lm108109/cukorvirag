@@ -1,6 +1,7 @@
 package org.example.twenty_points.service;
 
 import jakarta.validation.Valid;
+import org.example.twenty_points.exception.RoleNotFoundException;
 import org.example.twenty_points.model.dto.LoginRequest;
 import org.example.twenty_points.model.dto.RegistrationModifyDto;
 import org.example.twenty_points.model.dto.UserQueryDto;
