@@ -4,7 +4,6 @@ import org.example.twenty_points.model.dto.StorageDto;
 import org.example.twenty_points.model.entity.Storage;
 import org.example.twenty_points.repository.StorageRepository;
 import org.example.twenty_points.service.StorageService;
-import org.example.twenty_points.util.Mapper;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -46,7 +45,7 @@ public class StorageServiceImpl implements StorageService {
     @Override
     public StorageDto updateStorage(String name, Long quantity) {
         Storage storage = storageRepository.findByIngredientName(name);
-        storage.setQuantity(quantity);
+        storage.setQuantity(storage.getQuantity() + quantity);
         storageRepository.save(storage);
         return new StorageDto(storage);
     }

@@ -37,7 +37,7 @@ public class StorageController {
             return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).build();
         }
         else {
-            return ResponseEntity.ok(storageService.updateStorage(name, quantity));
+            return ResponseEntity.ok(storageService.addStorage(name, quantity));
         }
     }
 
@@ -54,7 +54,7 @@ public class StorageController {
     }
 
     @Operation(summary = "get-storage")
-    @PutMapping("/get-storage")
+    @GetMapping("/get-storage")
     public ResponseEntity<List<StorageDto>> getStorage() {
         return ResponseEntity.ok(storageService.getStorage());
     }

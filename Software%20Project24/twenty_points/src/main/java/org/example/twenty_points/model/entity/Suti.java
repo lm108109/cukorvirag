@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @DynamicUpdate
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "Suti")
+@Table(name = "cookie")
 public class Suti {
 
     private static final long serialVersionUID = 1L;
@@ -22,9 +22,9 @@ public class Suti {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "nev")
-    private String cakeName;
+    @Column(name = "name")
+    private String name;
 
-    @Column(name = "leiras")
+    @Column(name = "description")
     private String description;
 }
