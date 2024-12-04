@@ -1,0 +1,32 @@
+version: '3.8'
+services:
+  database:
+    image: mysql:8
+    container_name: SFM_DB
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: pastry_shop
+      MYSQL_USER: cukorvirag
+      MYSQL_PASSWORD: 20Pont
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+ 
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin
+    restart: always
+    environment:
+      PMA_HOST: SFM_DB
+      PMA_USER: cukorvirag
+      PMA_PASSWORD: 20Pont
+      PMA_ARBITRARY: 1
+    ports:
+      - "8080:80"
+    depends_on:
+      - database
+
+volumes:
+  db_data:
