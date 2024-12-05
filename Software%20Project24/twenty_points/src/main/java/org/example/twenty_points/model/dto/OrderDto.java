@@ -44,7 +44,6 @@ public class OrderDto {
     private Date date;
 
     public OrderDto(Order order) {
-        this.sweetname = order.getSweetname();
         this.quantity = order.getQuantity();
         this.price = order.getPrice();
         this.status = order.getStatus();

@@ -25,9 +25,12 @@ public class Storage implements Serializable {
     private Long id;
 
     @JsonIgnore
-    @Column(name = "hozzavalo_nev")
+    @Column(name = "ingredient_name")
     private String ingredientName;
 
-    @Column(name = "mennyiseg")
+    @Column(name = "quantity")
     private Long quantity;
+
+    @Column(name = "unit")
+    private String unit;
 }

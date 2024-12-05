@@ -19,15 +19,15 @@ public class Recipe {
 
     @Id
     @JsonIgnore
-    @JoinColumn(name = "suti_id")
+    @JoinColumn(name = "cookie_id")
     private Long sutiId;
 
     @Id
     @JsonIgnore
-    @JoinColumn(name = "hozzavalo_id")
+    @JoinColumn(name = "storage_id")
     private Long ingredientId;
 
-    @Column(name = "szukseges_mennyiseg")
+    @Column(name = "quantity")
     private Long requiredQuantity;
 
 }

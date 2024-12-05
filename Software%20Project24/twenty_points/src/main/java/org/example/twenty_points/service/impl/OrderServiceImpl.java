@@ -22,7 +22,6 @@ public class OrderServiceImpl implements OrderService {
     public OrderDto createOrder(OrderDto order) {
 
         Order newOrder = new Order();
-        newOrder.setSweetname(order.getSweetname());
         newOrder.setQuantity(order.getQuantity());
         newOrder.setPrice(order.getPrice());
         newOrder.setStatus(OrderStatus.NEW);
