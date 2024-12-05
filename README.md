@@ -37,6 +37,6 @@ Install project with ...
 
 Egyetemi projekt 2024 - Szoftverfejlesztés mérnököknek
 
-//TODO - logo
-![Logo](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/th5xamgrr6se0x5ro4g6.png)
+
+![Logo](https://cdn.discordapp.com/attachments/1284489882017988669/1284554672606154822/cukorvirag_logo.png?ex=67532943&is=6751d7c3&hm=90c748f06ef184134b4759c0646a492c3ace6040bcab5166fd523839c79eeb7a&)
 
