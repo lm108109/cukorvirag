@@ -7,10 +7,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
-<<<<<<< HEAD
-=======
 import org.example.twenty_points.exception.RoleNotFoundException;
->>>>>>> backend
 import org.example.twenty_points.model.dto.LoginRequest;
 import org.example.twenty_points.model.dto.RegistrationModifyDto;
 import org.example.twenty_points.model.dto.UserQueryDto;

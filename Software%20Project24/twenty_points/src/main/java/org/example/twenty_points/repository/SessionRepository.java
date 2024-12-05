@@ -16,10 +16,7 @@ public interface SessionRepository extends JpaRepository<Session, Long> {
 
     @Query(nativeQuery = true, value = "select * from sessions where user_id = :userId order by expiration_date desc limit 1")
     Optional<Session> getLastSessionUserId(@Param("userId") Long sessionId);
-<<<<<<< HEAD
-=======
 
     @Query(nativeQuery = true, value = "select max(id) from users")
     Long findMaxId();
->>>>>>> backend
 }

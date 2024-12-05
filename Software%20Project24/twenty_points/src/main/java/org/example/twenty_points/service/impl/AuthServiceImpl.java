@@ -1,9 +1,6 @@
 package org.example.twenty_points.service.impl;
 
-<<<<<<< HEAD
-=======
 import lombok.SneakyThrows;
->>>>>>> backend
 import org.example.twenty_points.exception.RoleNotFoundException;
 import org.example.twenty_points.model.dto.RegistrationModifyDto;
 import org.example.twenty_points.model.dto.UserQueryDto;
@@ -52,11 +49,13 @@ public class AuthServiceImpl implements AuthService {
     public LoginResponse authLogin(LoginRequest req) {
         User user = loginUser(req);
         Session session = createSession(user, req);
-<<<<<<< HEAD
-=======
         sessionRepository.save(session);
->>>>>>> backend
         return generateJwtTokenAndUpdateSession(session, user);
+    }
+
+    @Override
+    public UserQueryDto registration(RegistrationModifyDto registrationModifyDto) {
+        return null;
     }
 
     /**
@@ -116,12 +115,8 @@ public class AuthServiceImpl implements AuthService {
         return response;
     }
 
-<<<<<<< HEAD
-    public UserQueryDto registration(RegistrationModifyDto registrationModifyDto){
-=======
-    @SneakyThrows
-    public UserQueryDto registration(RegistrationModifyDto registrationModifyDto)  {
->>>>>>> backend
+   /* public UserQueryDto registration(RegistrationModifyDto registrationModifyDto){
+        public UserQueryDto registration registrationModifyDto)  {
 
         if ( userRepository.existsByUsername(registrationModifyDto.getUsername()) ){
             throw new RuntimeException("Username already exists");
@@ -138,5 +133,5 @@ public class AuthServiceImpl implements AuthService {
 
         user = userRepository.save(user);
         return new UserQueryDto(user);
-    }
+    }*/
 }
