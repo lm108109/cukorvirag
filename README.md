@@ -14,7 +14,7 @@
 
 **Test:** JUnit
 
-**Database:** MySQL
+**Database:** MySQL, Docker
 
 
 ## Authors
