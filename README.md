@@ -8,13 +8,13 @@
 
 ## Tech Stack //TODO
 
-**Client:** React
+**Frontend:** React, Tailwind CSS
 
-**Server:** Node
+**Backend:** Springboot, Java
 
 **Test:** JUnit
 
-**Database:** 
+**Database:** MySQL, phpMyAdmin
 
 
 ## Authors
