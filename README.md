@@ -14,7 +14,7 @@
 
 **Test:** JUnit
 
-**Database:** MySQL, phpMyAdmin
+**Database:** MySQL
 
 
 ## Authors
