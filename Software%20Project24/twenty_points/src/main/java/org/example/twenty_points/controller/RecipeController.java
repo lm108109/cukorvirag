@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/rest/auth")
 public class RecipeController {
 
+    // CSAK GET !!!!!!!!!!!!!!!!!!!!!!444444!!!!!!!!!!!!
 //    private final RecipeService recipeService;
 //    private final RecipeRepository recipeRepository;
 //

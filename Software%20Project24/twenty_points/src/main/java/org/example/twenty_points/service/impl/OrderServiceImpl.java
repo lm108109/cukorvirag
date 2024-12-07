@@ -26,7 +26,7 @@ public class OrderServiceImpl implements OrderService {
         newOrder.setPrice(order.getPrice());
         newOrder.setStatus(OrderStatus.NEW);
         newOrder.setName(order.getName());
-        newOrder.setTelefonNumber(order.getTelefonNumber());
+        newOrder.setTelephoneNumber(order.getTelephoneNumber());
         newOrder.setEmail(order.getEmail());
         newOrder.setDate(order.getDate());
         orderRepository.save(newOrder);

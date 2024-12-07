@@ -34,13 +34,14 @@ public class Order implements Serializable {
     private int price;
 
     @Column(name = "status")
+    @Enumerated(EnumType.STRING)
     private OrderStatus status;
 
     @Column(name = "name")
     private String name;
 
-    @Column(name = "telefon_number")
-    private String telefonNumber;
+    @Column(name = "telephone_number")
+    private String telephoneNumber;
 
     @Column(name = "email")
     private String email;

@@ -2,6 +2,8 @@ package org.example.twenty_points.model.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Column;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -29,13 +31,14 @@ public class OrderDto {
     private int price;
 
     @Column(name = "status")
+    @Enumerated(EnumType.STRING)
     private OrderStatus status;
 
     @Column(name = "name")
     private String name;
 
-    @Column(name = "telefon_number")
-    private String telefonNumber;
+    @Column(name = "telephone_number")
+    private String telephoneNumber;
 
     @Column(name = "email")
     private String email;
