@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
-import './orders.css'
 import OrderItem from '../../data_containers/OrderItem/OrderItem'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
+import SaveOrder from '../../modal/saveorder'
 
 function Orders() {
     const initialWaiting = [
@@ -52,296 +52,282 @@ function Orders() {
             status: 'Completed',
         },
     ]
+
     const [waitingOrders, setWaitingOrders] = useState(initialWaiting)
     const [progressOrders, setProgressOrders] = useState(initialProgress)
     const [completedOrders, setCompletedOrders] = useState(initialCompleted)
+    const [isModalOpen, setIsModalOpen] = useState(false)
 
     function handleOndragEnd(result) {
         const { source, destination } = result
-
         if (!destination) return
 
-        const source_index = source.index
-        const destination_index = destination.index
+        const sourceIndex = source.index
+        const destinationIndex = destination.index
+        const sourceDroppableId = source.droppableId
+        const destinationDroppableId = destination.droppableId
 
-        const source_droppableId = source.droppableId
-        const destination_droppableId = destination.droppableId
+        const moveOrder = (
+            sourceOrders,
+            setSourceOrders,
+            destOrders,
+            setDestOrders,
+            newStatus
+        ) => {
+            const sourceItems = Array.from(sourceOrders)
+            const [movedItem] = sourceItems.splice(sourceIndex, 1)
+            movedItem.status = newStatus
+            setSourceOrders(sourceItems)
 
-        //waiting orders
-        if (destination_droppableId === 'waiting') {
-            if (source_droppableId === 'waiting') {
-                const items = Array.from(waitingOrders)
-                const [reorderedItem] = items.splice(source_index, 1)
-                items.splice(destination_index, 0, reorderedItem)
-
-                setWaitingOrders(items)
-            }
-
-            if (source_droppableId === 'progress') {
-                const items = Array.from(waitingOrders)
-                const progress_items = Array.from(progressOrders)
-                //take from progress the dragged item
-                const [reorderedItem] = progress_items.splice(source_index, 1)
-                reorderedItem.status = 'Waiting for Processing'
-                setProgressOrders(progress_items)
-
-                items.splice(destination_index, 0, reorderedItem)
-
-                setWaitingOrders(items)
-            }
-
-            if (source_droppableId === 'completed') {
-                const items = Array.from(waitingOrders)
-                const completed_items = Array.from(completedOrders)
-                //take from progress the dragged item
-                const [reorderedItem] = completed_items.splice(source_index, 1)
-                reorderedItem.status = 'Waiting for Processing'
-                setCompletedOrders(completed_items)
-
-                items.splice(destination_index, 0, reorderedItem)
-
-                setWaitingOrders(items)
-            }
+            const destItems = Array.from(destOrders)
+            destItems.splice(destinationIndex, 0, movedItem)
+            setDestOrders(destItems)
         }
 
-        //progress orders
-        if (destination_droppableId === 'progress') {
-            if (source_droppableId === 'progress') {
-                const items = Array.from(progressOrders)
-                const [reorderedItem] = items.splice(source_index, 1)
-                items.splice(destination_index, 0, reorderedItem)
-
-                setProgressOrders(items)
-            }
-
-            if (source_droppableId === 'waiting') {
-                const items = Array.from(progressOrders)
-                const waiting_items = Array.from(waitingOrders)
-                //take from progress the dragged item
-                const [reorderedItem] = waiting_items.splice(source_index, 1)
-                reorderedItem.status = 'In Progress'
-                setWaitingOrders(waiting_items)
-
-                items.splice(destination_index, 0, reorderedItem)
-
-                setProgressOrders(items)
-            }
-
-            if (source_droppableId === 'completed') {
-                const items = Array.from(progressOrders)
-                const completed_items = Array.from(completedOrders)
-                //take from progress the dragged item
-                const [reorderedItem] = completed_items.splice(source_index, 1)
-                reorderedItem.status = 'In Progress'
-                setCompletedOrders(completed_items)
-
-                items.splice(destination_index, 0, reorderedItem)
-
-                setProgressOrders(items)
-            }
-        }
-        //completed orders
-        if (destination_droppableId === 'completed') {
-            if (source_droppableId === 'completed') {
-                const items = Array.from(completedOrders)
-                const [reorderedItem] = items.splice(source_index, 1)
-                items.splice(destination_index, 0, reorderedItem)
-
-                setCompletedOrders(items)
-            }
-
-            if (source_droppableId === 'waiting') {
-                const items = Array.from(completedOrders)
-                const waiting_items = Array.from(waitingOrders)
-                //take from progress the dragged item
-                const [reorderedItem] = waiting_items.splice(source_index, 1)
-                reorderedItem.status = 'Completed'
-                setWaitingOrders(waiting_items)
-
-                items.splice(destination_index, 0, reorderedItem)
-
-                setCompletedOrders(items)
-            }
-
-            if (source_droppableId === 'progress') {
-                const items = Array.from(completedOrders)
-                const progress_items = Array.from(progressOrders)
-                //take from progress the dragged item
-                const [reorderedItem] = progress_items.splice(source_index, 1)
-                reorderedItem.status = 'Completed'
-                setProgressOrders(progress_items)
-
-                items.splice(destination_index, 0, reorderedItem)
-
-                setCompletedOrders(items)
-            }
+        if (destinationDroppableId === 'waiting') {
+            if (sourceDroppableId === 'waiting')
+                moveOrder(
+                    waitingOrders,
+                    setWaitingOrders,
+                    waitingOrders,
+                    setWaitingOrders,
+                    'Waiting for Processing'
+                )
+            else if (sourceDroppableId === 'progress')
+                moveOrder(
+                    progressOrders,
+                    setProgressOrders,
+                    waitingOrders,
+                    setWaitingOrders,
+                    'Waiting for Processing'
+                )
+            else
+                moveOrder(
+                    completedOrders,
+                    setCompletedOrders,
+                    waitingOrders,
+                    setWaitingOrders,
+                    'Waiting for Processing'
+                )
+        } else if (destinationDroppableId === 'progress') {
+            if (sourceDroppableId === 'progress')
+                moveOrder(
+                    progressOrders,
+                    setProgressOrders,
+                    progressOrders,
+                    setProgressOrders,
+                    'In Progress'
+                )
+            else if (sourceDroppableId === 'waiting')
+                moveOrder(
+                    waitingOrders,
+                    setWaitingOrders,
+                    progressOrders,
+                    setProgressOrders,
+                    'In Progress'
+                )
+            else
+                moveOrder(
+                    completedOrders,
+                    setCompletedOrders,
+                    progressOrders,
+                    setProgressOrders,
+                    'In Progress'
+                )
+        } else if (destinationDroppableId === 'completed') {
+            if (sourceDroppableId === 'completed')
+                moveOrder(
+                    completedOrders,
+                    setCompletedOrders,
+                    completedOrders,
+                    setCompletedOrders,
+                    'Completed'
+                )
+            else if (sourceDroppableId === 'waiting')
+                moveOrder(
+                    waitingOrders,
+                    setWaitingOrders,
+                    completedOrders,
+                    setCompletedOrders,
+                    'Completed'
+                )
+            else
+                moveOrder(
+                    progressOrders,
+                    setProgressOrders,
+                    completedOrders,
+                    setCompletedOrders,
+                    'Completed'
+                )
         }
     }
 
+    const toggleModal = () => setIsModalOpen(!isModalOpen)
+
     return (
-        <div className="orders-container">
-            <div className="header-for-children">
-                <div className="header-item">Feldolgozásra vár</div>
-                <div className="header-item">Készül</div>
-                <div className="header-item">Elkészült</div>
+        <div className="flex flex-col items-center w-auto h-4/5 p-8 relative bg-orders-div m-16 rounded-xl">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full">
+                <div className="text-center font-bold border-b-2 md:border-none md:border-r-2 border-black py-4">
+                    Waiting for Processing
+                </div>
+                <div className="text-center font-bold border-b-2 md:border-none md:border-r-2 border-black py-4">
+                    In Progress
+                </div>
+                <div className="text-center font-bold border-b-2 md:border-none py-4">
+                    Completed
+                </div>
             </div>
-            <div className="content-container">
-                <DragDropContext onDragEnd={handleOndragEnd}>
-                    <div className="processing-container">
-                        <div className="order-list">
-                            <Droppable droppableId="waiting">
-                                {(provided) => (
-                                    <ul
-                                        className="waitingOrders"
-                                        {...provided.droppableProps} // Spread droppableProps
-                                        ref={provided.innerRef} // Attach innerRef
-                                    >
-                                        {waitingOrders.map(
-                                            (
-                                                {
-                                                    id,
-                                                    sweetName,
-                                                    quantity,
-                                                    price,
-                                                    status,
-                                                },
-                                                index
-                                            ) => (
-                                                <Draggable
-                                                    key={id} // Use the unique id as key
-                                                    draggableId={id} // Use the unique id for draggableId
-                                                    index={index} // Index is still based on array position
+
+            <DragDropContext onDragEnd={handleOndragEnd}>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full h-full mb-16">
+                    <Droppable droppableId="waiting">
+                        {(provided) => (
+                            <div
+                                className="bg-white p-4 rounded-lg shadow-lg h-full overflow-y-auto"
+                                {...provided.droppableProps}
+                                ref={provided.innerRef}
+                            >
+                                {waitingOrders.map(
+                                    (
+                                        {
+                                            id,
+                                            sweetName,
+                                            quantity,
+                                            price,
+                                            status,
+                                        },
+                                        index
+                                    ) => (
+                                        <Draggable
+                                            key={id}
+                                            draggableId={id}
+                                            index={index}
+                                        >
+                                            {(provided) => (
+                                                <div
+                                                    className="mb-4"
+                                                    ref={provided.innerRef}
+                                                    {...provided.draggableProps}
+                                                    {...provided.dragHandleProps}
                                                 >
-                                                    {(provided) => (
-                                                        <li
-                                                            {...provided.draggableProps} // Draggable props
-                                                            {...provided.dragHandleProps} // Drag handle props
-                                                            ref={
-                                                                provided.innerRef
-                                                            } // Ref for the draggable item
-                                                        >
-                                                            <OrderItem
-                                                                sweetName={
-                                                                    sweetName
-                                                                }
-                                                                quantity={
-                                                                    quantity
-                                                                }
-                                                                price={price}
-                                                                process={status}
-                                                            />
-                                                        </li>
-                                                    )}
-                                                </Draggable>
-                                            )
-                                        )}
-                                        {provided.placeholder}
-                                    </ul>
+                                                    <OrderItem
+                                                        sweetName={sweetName}
+                                                        quantity={quantity}
+                                                        price={price}
+                                                        process={status}
+                                                    />
+                                                </div>
+                                            )}
+                                        </Draggable>
+                                    )
                                 )}
-                            </Droppable>
-                        </div>
-                    </div>
-                    <div className="about-container">
-                        <Droppable droppableId="progress">
-                            {(provided) => (
-                                <ul
-                                    className="progressOrders"
-                                    {...provided.droppableProps}
-                                    ref={provided.innerRef}
-                                >
-                                    {progressOrders.map(
-                                        (
-                                            {
-                                                id,
-                                                sweetName,
-                                                quantity,
-                                                price,
-                                                status,
-                                            },
-                                            index
-                                        ) => (
-                                            <Draggable
-                                                key={id}
-                                                draggableId={id}
-                                                index={index}
-                                            >
-                                                {(provided) => (
-                                                    <li
-                                                        {...provided.draggableProps}
-                                                        {...provided.dragHandleProps}
-                                                        ref={provided.innerRef}
-                                                    >
-                                                        <OrderItem
-                                                            sweetName={
-                                                                sweetName
-                                                            }
-                                                            quantity={quantity}
-                                                            price={price}
-                                                            process={status}
-                                                        />
-                                                    </li>
-                                                )}
-                                            </Draggable>
-                                        )
-                                    )}
-                                    {provided.placeholder}
-                                </ul>
-                            )}
-                        </Droppable>
-                    </div>
-                    <div className="ready-container">
-                        <Droppable droppableId="completed">
-                            {(provided) => (
-                                <ul
-                                    className="completedOrders"
-                                    {...provided.droppableProps}
-                                    ref={provided.innerRef}
-                                >
-                                    {completedOrders.map(
-                                        (
-                                            {
-                                                id,
-                                                sweetName,
-                                                quantity,
-                                                price,
-                                                status,
-                                            },
-                                            index
-                                        ) => (
-                                            <Draggable
-                                                key={id}
-                                                draggableId={id}
-                                                index={index}
-                                            >
-                                                {(provided) => (
-                                                    <li
-                                                        {...provided.draggableProps}
-                                                        {...provided.dragHandleProps}
-                                                        ref={provided.innerRef}
-                                                    >
-                                                        <OrderItem
-                                                            sweetName={
-                                                                sweetName
-                                                            }
-                                                            quantity={quantity}
-                                                            price={price}
-                                                            process={status}
-                                                        />
-                                                    </li>
-                                                )}
-                                            </Draggable>
-                                        )
-                                    )}
-                                    {provided.placeholder}
-                                </ul>
-                            )}
-                        </Droppable>
-                    </div>
-                </DragDropContext>
-            </div>
-            <div>
-                <button className="floating-button">+</button>
-            </div>
+                                {provided.placeholder}
+                            </div>
+                        )}
+                    </Droppable>
+                    <Droppable droppableId="progress">
+                        {(provided) => (
+                            <div
+                                className="bg-white p-4 rounded-lg shadow-lg h-full overflow-y-auto"
+                                {...provided.droppableProps}
+                                ref={provided.innerRef}
+                            >
+                                {progressOrders.map(
+                                    (
+                                        {
+                                            id,
+                                            sweetName,
+                                            quantity,
+                                            price,
+                                            status,
+                                        },
+                                        index
+                                    ) => (
+                                        <Draggable
+                                            key={id}
+                                            draggableId={id}
+                                            index={index}
+                                        >
+                                            {(provided) => (
+                                                <div
+                                                    className="mb-4"
+                                                    ref={provided.innerRef}
+                                                    {...provided.draggableProps}
+                                                    {...provided.dragHandleProps}
+                                                >
+                                                    <OrderItem
+                                                        sweetName={sweetName}
+                                                        quantity={quantity}
+                                                        price={price}
+                                                        process={status}
+                                                    />
+                                                </div>
+                                            )}
+                                        </Draggable>
+                                    )
+                                )}
+                                {provided.placeholder}
+                            </div>
+                        )}
+                    </Droppable>
+                    <Droppable droppableId="completed">
+                        {(provided) => (
+                            <div
+                                className="bg-white p-4 rounded-lg shadow-lg h-full flex-grow overflow-auto"
+                                {...provided.droppableProps}
+                                ref={provided.innerRef}
+                            >
+                                {completedOrders.map(
+                                    (
+                                        {
+                                            id,
+                                            sweetName,
+                                            quantity,
+                                            price,
+                                            status,
+                                        },
+                                        index
+                                    ) => (
+                                        <Draggable
+                                            key={id}
+                                            draggableId={id}
+                                            index={index}
+                                        >
+                                            {(provided) => (
+                                                <div
+                                                    className="mb-4"
+                                                    ref={provided.innerRef}
+                                                    {...provided.draggableProps}
+                                                    {...provided.dragHandleProps}
+                                                >
+                                                    <OrderItem
+                                                        sweetName={sweetName}
+                                                        quantity={quantity}
+                                                        price={price}
+                                                        process={status}
+                                                    />
+                                                </div>
+                                            )}
+                                        </Draggable>
+                                    )
+                                )}
+                                {provided.placeholder}
+                            </div>
+                        )}
+                    </Droppable>
+                </div>
+            </DragDropContext>
+
+            {/* Modal toggle button */}
+            <button
+                onClick={toggleModal}
+                className="fixed z-10 bottom-5 left-5 w-16 h-16 bg-orders-div border-2 border-black rounded-full flex justify-center items-center shadow-lg hover:bg-gray-200 transition duration-300"
+            >
+                +
+            </button>
+
+            {/* Render Modal */}
+            {isModalOpen && <SaveOrder onClose={toggleModal} />}
         </div>
     )
 }
