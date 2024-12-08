@@ -1,13 +1,19 @@
 import React from 'react'
 
-const WarehouseItem = ({ product, amount }) => {
+const WarehouseItem = ({ product, amount, unit }) => {
     return (
-        <div className="flex justify-between items-center border p-4 m-4 rounded-lg shadow-md bg-white">
-            <div className="text-left m-2">
-                <span className="font-semibold text-lg">{product}</span>
+        <div className="flex justify-between items-center border border-gray-300 p-2 mb-2 rounded-lg shadow-sm bg-white hover:shadow-md transition-shadow">
+            {/* Product Name */}
+            <div className="text-left">
+                <span className="font-medium text-sm text-gray-800">
+                    {product || 'Unknown Product'}
+                </span>
             </div>
-            <div className="text-right m-2">
-                <span className="text-gray-700">{amount} pcs</span>
+            {/* Amount with Unit */}
+            <div className="text-right">
+                <span className="text-gray-600 text-sm">
+                    {amount || '0'} {unit || ''}
+                </span>
             </div>
         </div>
     )
