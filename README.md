@@ -1,7 +1,7 @@
 
 # Cukorvirág
 
-"Édes pillanatok,melyek virágba borítják a napod."
+"Édes pillanatok, melyek virágba borítják a napod."
 
 ## Table of Contents
 - [Introduction](#introduction)
