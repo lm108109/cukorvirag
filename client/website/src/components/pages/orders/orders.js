@@ -168,13 +168,13 @@ function Orders() {
         <div className="flex flex-col items-center w-auto h-4/5 p-8 relative bg-orders-div m-16 rounded-xl">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full">
                 <div className="text-center font-bold border-b-2 md:border-none md:border-r-2 border-black py-4">
-                    Waiting for Processing
+                    Feldolgozás alatt
                 </div>
                 <div className="text-center font-bold border-b-2 md:border-none md:border-r-2 border-black py-4">
-                    In Progress
+                    Folyamatban
                 </div>
                 <div className="text-center font-bold border-b-2 md:border-none py-4">
-                    Completed
+                    Befejezett
                 </div>
             </div>
 
