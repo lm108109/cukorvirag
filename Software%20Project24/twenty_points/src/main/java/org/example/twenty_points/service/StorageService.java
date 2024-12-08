@@ -10,4 +10,8 @@ public interface StorageService {
 
     List<StorageDto> getStorage();
     StorageDto updateStorage(String name, Long quantity);
+
+    StorageDto updateStorage(StorageDto storageDto);
+
+    Boolean checkStorage(String name, Long quantity);
 }

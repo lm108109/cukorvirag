@@ -2,7 +2,8 @@ package org.example.twenty_points.model.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Column;
-import jakarta.persistence.Table;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,23 +20,24 @@ import java.util.Date;
 @Schema(name = "Order data transfer objecct")
 public class OrderDto {
 
-    @Column(name = "sweetname")
-    private String sweetname;
+    @Column(name = "sweet_name")
+    private String sweetName;
 
-    @Column(name = "mennyiseg")
+    @Column(name = "quantity")
     private int quantity;
 
     @Column(name = "price")
     private int price;
 
     @Column(name = "status")
+    @Enumerated(EnumType.STRING)
     private OrderStatus status;
 
     @Column(name = "name")
     private String name;
 
-    @Column(name = "telefon_number")
-    private String telefonNumber;
+    @Column(name = "telephone_number")
+    private String telephoneNumber;
 
     @Column(name = "email")
     private String email;
@@ -44,10 +46,12 @@ public class OrderDto {
     private Date date;
 
     public OrderDto(Order order) {
+        this.sweetName = order.getSweetName();
         this.quantity = order.getQuantity();
         this.price = order.getPrice();
         this.status = order.getStatus();
         this.name = order.getName();
+        this.telephoneNumber = order.getTelephoneNumber();
         this.email = order.getEmail();
         this.date = order.getDate();
     }

@@ -6,16 +6,14 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.example.twenty_points.model.entity.Suti;
-
-import java.util.Date;
+import org.example.twenty_points.model.entity.Cookie;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Schema(name = "Suti data transfer objecct")
-public class SutiDto {
+@Schema(name = "Cookie data transfer object")
+public class CookieDto {
 
     @Column(name = "name")
     private String name;
@@ -23,9 +21,9 @@ public class SutiDto {
     @Column(name = "description")
     private String description;
 
-    public SutiDto(Suti suti) {
-        this.name = suti.getName();
-        this.description = suti.getDescription();
+    public CookieDto(Cookie cookie) {
+        this.name = cookie.getName();
+        this.description = cookie.getDescription();
 
     }
 }
