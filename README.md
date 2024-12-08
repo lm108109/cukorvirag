@@ -36,7 +36,7 @@ Install project with ...
    
 ## License
 
-[MIT](https://choosealicense.com/licenses/mit/)
+[MIT](https://github.com/lm108109/cukorvirag/blob/main/LICENSE)
 
 
 ## Appendix
