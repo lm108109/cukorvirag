@@ -3,10 +3,23 @@
 
 "Édes pillanatok,melyek virágba borítják a napod."
 
+## Table of Contents
+- [Introduction](#introduction)
+- [Tech Stack](#tech-stack)
+- [Authors](#authors)
+- [Run Locally](#run-locally)
+- [Screenshots](#screenshots)
+- [Logo](#logo)
+- [License](#license)
+
+## Introduction
+
+University Project 2024 - Software Development for Engineers
+
+Cukorvirág is a web application designed for a fictional bakery, simplifying order management while preserving personal communication. This application streamlines processes and supports bakers in their creative work. 🎂
 
 
-
-## Tech Stack //TODO
+## Tech Stack
 
 **Frontend:** React, Tailwind CSS
 
@@ -14,8 +27,7 @@
 
 **Test:** JUnit
 
-**Database:** MySQL, phpMyAdmin
-
+**Database:** MySQL, Docker
 
 ## Authors
 
@@ -24,24 +36,36 @@
 - [@Matyesz342](https://github.com/Matyesz342)
 - [@lm108109](https://github.com/lm108109)
 
+## Run Locally
 
-## Installation
-
-Install project with ...
+Clone the project
 
 ```bash
-   //TODO
+  git clone https://github.com/lm108109/cukorvirag.git
 ```
 
-   
+Go to the project directory
+
+```bash
+  cd //TODO
+```
+
+Install dependencies
+
+```bash
+  npm install
+```
+
+Start the server
+
+```bash
+  npm run start
+```
+
 ## License
 
 [MIT](https://github.com/lm108109/cukorvirag/blob/main/LICENSE.md)
 
-
-## Appendix
-
-Egyetemi projekt 2024 - Szoftverfejlesztés mérnököknek
 
 ## Screenshots
 
