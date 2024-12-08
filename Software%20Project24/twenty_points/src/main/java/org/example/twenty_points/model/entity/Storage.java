@@ -29,7 +29,7 @@ public class Storage implements Serializable {
     private String ingredientName;
 
     @Column(name = "quantity")
-    private Long quantity;
+    private Double quantity;
 
     @Column(name = "unit")
     private String unit;

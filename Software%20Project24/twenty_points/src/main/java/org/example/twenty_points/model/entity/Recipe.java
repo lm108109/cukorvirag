@@ -17,17 +17,24 @@ import java.time.LocalDateTime;
 @Table(name = "Recipes")
 public class Recipe {
 
+
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     @JsonIgnore
     @JoinColumn(name = "cookie_id")
-    private Long sutiId;
+    private Long cookieId;
 
-    @Id
+
     @JsonIgnore
     @JoinColumn(name = "storage_id")
-    private Long ingredientId;
+    private Long storageId;
 
     @Column(name = "quantity")
-    private Long requiredQuantity;
+    private Double requiredQuantity;
+
+    @Column(name = "unit")
+    private String unit;
 
 }

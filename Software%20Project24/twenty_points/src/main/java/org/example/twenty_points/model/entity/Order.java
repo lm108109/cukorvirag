@@ -24,8 +24,8 @@ public class Order implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "cookie_id")
-    private Long cookieId;
+    @Column(name = "sweet_name")
+    private String sweetName;
 
     @Column(name = "quantity")
     private int quantity;

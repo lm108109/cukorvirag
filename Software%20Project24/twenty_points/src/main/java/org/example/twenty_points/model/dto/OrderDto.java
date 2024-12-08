@@ -4,7 +4,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Column;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,10 +20,10 @@ import java.util.Date;
 @Schema(name = "Order data transfer objecct")
 public class OrderDto {
 
-    @Column(name = "sweetname")
-    private String sweetname;
+    @Column(name = "sweet_name")
+    private String sweetName;
 
-    @Column(name = "mennyiseg")
+    @Column(name = "quantity")
     private int quantity;
 
     @Column(name = "price")
@@ -47,10 +46,12 @@ public class OrderDto {
     private Date date;
 
     public OrderDto(Order order) {
+        this.sweetName = order.getSweetName();
         this.quantity = order.getQuantity();
         this.price = order.getPrice();
         this.status = order.getStatus();
         this.name = order.getName();
+        this.telephoneNumber = order.getTelephoneNumber();
         this.email = order.getEmail();
         this.date = order.getDate();
     }

@@ -13,7 +13,7 @@ public class StorageDto {
 
     private String name;
 
-    private Long quantity;
+    private Double quantity;
 
     public StorageDto(Storage storage) {
         this.name = storage.getIngredientName();
