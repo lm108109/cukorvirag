@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-const RecipeItem = ({ title }) => {
+const RecipeItem = ({ title, description }) => {
     const [expanded, setExpanded] = useState(false)
 
     return (
@@ -17,8 +17,12 @@ const RecipeItem = ({ title }) => {
                 </button>
             </div>
             {expanded && (
-                <div className="recipe-content mt-5 p-4 border border-black h-40">
-                    <p>Hozzávalók:</p>
+                <div
+                    className="recipe-content mt-5 p-4 border border-black h-40 overflow-y-auto"
+                    style={{ wordWrap: 'break-word', whiteSpace: 'pre-wrap' }}
+                >
+                    <p className="font-bold">Hozzávalók:</p>
+                    <p>{description}</p>
                 </div>
             )}
         </div>
