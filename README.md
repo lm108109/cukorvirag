@@ -47,19 +47,19 @@ Clone the project
 Go to the project directory
 
 ```bash
-  cd //TODO
+  cd cukorvirag
 ```
 
 Install dependencies
 
 ```bash
-  npm install
+  npm install //TODO
 ```
 
 Start the server
 
 ```bash
-  npm run start
+  npm run start //TODO
 ```
 
 ## License
