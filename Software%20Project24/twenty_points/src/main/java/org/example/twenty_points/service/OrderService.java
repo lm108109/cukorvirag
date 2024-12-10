@@ -11,7 +11,7 @@ public interface OrderService {
 
     Order createOrder(String sweetName, int quantity, int price,  String name, String telephoneNumber, String email, Date date);
 
-    List<OrderDto> getAllOrders();
+    List<Order> getAllOrders();
 
     List<OrderDto> getOrdersByStatus(OrderStatus status);
 

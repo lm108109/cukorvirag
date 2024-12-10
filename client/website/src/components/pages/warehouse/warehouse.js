@@ -1,73 +1,130 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import WarehouseItem from '../../data_containers/WarehouseItem/WarehouseItem'
 
 function Warehouse() {
     const [sortOrder, setSortOrder] = useState('desc')
+    const [sweetShopData, setSweetShopData] = useState([])
+    const [searchQuery, setSearchQuery] = useState('') // State for search query
+    const [error, setError] = useState(null) // For handling errors
 
-    const sweetShopData = [
-        { product: 'Chocolate Bar', amount: '200 pcs' },
-        { product: 'Gulab Jamun', amount: '150 kg' },
-        { product: 'Rasgulla', amount: '120 kg' },
-        { product: 'Ladoo', amount: '500 pcs' },
-        { product: 'Jalebi', amount: '100 kg' },
-        { product: 'Barfi', amount: '75 kg' },
-        { product: 'Kaju Katli', amount: '80 kg' },
-        { product: 'Milk Cake', amount: '50 kg' },
-        { product: 'Rasgulla Tin', amount: '200 tins' },
-        { product: 'Sugar Syrup', amount: '500 liters' },
-        { product: 'Ice Cream Tub', amount: '100 tubs' },
-        { product: 'Candies', amount: '1000 pcs' },
-        { product: 'Halwa', amount: '70 kg' },
-        { product: 'Peda', amount: '300 pcs' },
-        { product: 'Mysore Pak', amount: '60 kg' },
-    ]
-
-    const sortedData = [...sweetShopData].sort((a, b) => {
-        if (sortOrder === 'asc') {
-            return a.product.localeCompare(b.product)
-        } else {
-            return b.product.localeCompare(a.product)
-        }
-    })
+    // Filter and sort data
+    const sortedData = [...sweetShopData]
+        .filter(
+            (item) =>
+                item.name.toLowerCase().includes(searchQuery.toLowerCase()) // Filter based on search query
+        )
+        .map((item) => ({
+            product: item.name,
+            amount: item.quantity,
+        }))
+        .sort((a, b) => {
+            return sortOrder === 'asc'
+                ? a.product.localeCompare(b.product)
+                : b.product.localeCompare(a.product)
+        })
 
     const sortRecipes = () => {
         setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')
     }
 
+    const inputHandler = (event) => {
+        setSearchQuery(event.target.value) // Update the search query
+    }
+
+    useEffect(() => {
+        const fetchWareHouseItems = async () => {
+            const token = JSON.parse(localStorage.getItem('user'))?.token
+
+            if (!token) {
+                setError('No token found. Please log in.')
+                return
+            }
+
+            const myHeaders = new Headers()
+            myHeaders.append('accept', '*/*')
+            myHeaders.append('Authorization', `Bearer ${token}`)
+
+            const requestOptions = {
+                method: 'GET',
+                headers: myHeaders,
+                redirect: 'follow',
+            }
+
+            try {
+                const response = await fetch(
+                    'http://localhost:8080/rest/auth/get-storage',
+                    requestOptions
+                )
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`)
+                }
+
+                const data = await response.json()
+
+                setSweetShopData(data)
+            } catch (error) {
+                console.error(error)
+                setError(error.message)
+            }
+        }
+
+        fetchWareHouseItems()
+    }, [])
+
     return (
-        <div className="m-12 p-4 bg-gray-100 rounded-lg flex flex-col">
-            <div className="border-b-2 border-black w-full flex justify-between text-xl py-2">
-                <div className="flex items-center">
-                    <div className="mr-2">Megnevezés</div>
+        <>
+            <div className="flex flex-col md:flex-row md:flex-wrap md:items-center md:justify-between rounded-lg my-6 mx-5 p-5 bg-[#f7efee] border border-[#2b2b2b]">
+                {/* Search input */}
+                <input
+                    type="text"
+                    placeholder="Keresés"
+                    className="w-full max-w-sm p-2 rounded-full text-lg bg-[#fdf9f7] my-2 md:my-0"
+                    onChange={inputHandler}
+                />
+                {/* Title and Sort */}
+                <div className="flex items-center my-2">
+                    <h2 className="text-2xl font-serif text-[#5e1b13] mx-2">
+                        Receptek
+                    </h2>
                     <span
-                        className={`cursor-pointer ml-2 ${sortOrder === 'desc' ? 'arrow-down' : 'arrow-up'}`}
+                        className={`cursor-pointer ml-2 text-lg ${
+                            sortOrder === 'desc' ? '▼' : '▲'
+                        }`}
                         onClick={sortRecipes}
                     >
                         {sortOrder === 'desc' ? '▼' : '▲'}
                     </span>
                 </div>
                 <div className="flex items-center">
-                    <div className="mr-2">Mennyiség</div>
+                    <div className="text-2xl font-serif text-[#5e1b13] mx-2">
+                        Mennyiség
+                    </div>
                 </div>
             </div>
-            <div className="flex-grow w-full h-96 overflow-y-auto bg-gray-100">
-                {sortedData.length > 0 ? (
-                    <div className="list-none">
+            <div className="font-serif bg-[#f7efee] p-5 rounded-lg my-6 mx-5 border border-[#2b2b2b] flex flex-col overflow-y-auto max-h-[400px] sm:max-h-[600px] lg:max-h-[800px]">
+                {error ? (
+                    <div className="p-5 text-center text-lg text-red-600 font-serif">
+                        {error}
+                    </div>
+                ) : sortedData.length > 0 ? (
+                    <div className="border-t border-[#5e1b13] pt-2 mt-2">
                         {sortedData.map((item, index) => (
                             <WarehouseItem
                                 key={index}
                                 product={item.product}
                                 amount={item.amount}
+                                uni={item.unit}
                             />
                         ))}
                     </div>
                 ) : (
-                    <div className="text-center">
+                    <div className="p-5 text-center text-lg text-[#5e1b13] font-serif">
                         Nincsenek a keresésnek megfelelő receptek
                     </div>
                 )}
             </div>
-        </div>
+        </>
     )
 }
 
