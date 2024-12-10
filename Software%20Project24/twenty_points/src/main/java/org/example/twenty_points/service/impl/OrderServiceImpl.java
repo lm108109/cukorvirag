@@ -43,10 +43,8 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<OrderDto> getAllOrders() {
-        return orderRepository.findAll().stream()
-                .map(OrderDto::new)
-                .toList();
+    public List<Order> getAllOrders() {
+        return orderRepository.findAll();
     }
 
 

@@ -46,7 +46,7 @@ public class OrderController {
     //get
     @Operation(summary = "get-orders")
     @GetMapping("/get-orders")
-    public ResponseEntity<List<OrderDto>> getOrder()
+    public ResponseEntity<List<Order>> getOrder()
     {
         return ResponseEntity.ok(orderService.getAllOrders());
     }
