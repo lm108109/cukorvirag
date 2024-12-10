@@ -1,61 +1,64 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import OrderItem from '../../data_containers/OrderItem/OrderItem'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 import SaveOrder from '../../modal/saveorder'
 
 function Orders() {
-    const initialWaiting = [
-        {
-            id: 'order-1',
-            sweetName: 'Csoki torta',
-            quantity: 2,
-            price: 15,
-            status: 'Waiting for Processing',
-        },
-        {
-            id: 'order-2',
-            sweetName: 'Sajt torta',
-            quantity: 2,
-            price: 15,
-            status: 'Waiting for Processing',
-        },
-    ]
-    const initialProgress = [
-        {
-            id: 'order-4',
-            sweetName: 'Strawberry Tart',
-            quantity: 1,
-            price: 8,
-            status: 'In Progress',
-        },
-        {
-            id: 'order-5',
-            sweetName: 'Somlói',
-            quantity: 2,
-            price: 15,
-            status: 'In Progress',
-        },
-    ]
-    const initialCompleted = [
-        {
-            id: 'order-6',
-            sweetName: 'Macarons',
-            quantity: 5,
-            price: 12,
-            status: 'Completed',
-        },
-        {
-            id: 'order-7',
-            sweetName: 'Sajt torta',
-            quantity: 5,
-            price: 12,
-            status: 'Completed',
-        },
-    ]
+    useEffect(() => {
+        const fetchOrders = async () => {
+            const token = JSON.parse(localStorage.getItem('user'))?.token
 
-    const [waitingOrders, setWaitingOrders] = useState(initialWaiting)
-    const [progressOrders, setProgressOrders] = useState(initialProgress)
-    const [completedOrders, setCompletedOrders] = useState(initialCompleted)
+            if (!token) {
+                console.error('No token found. Please log in.')
+                return
+            }
+
+            const myHeaders = new Headers()
+            myHeaders.append('accept', '*/*')
+            myHeaders.append('Authorization', `Bearer ${token}`)
+
+            const requestOptions = {
+                method: 'GET',
+                headers: myHeaders,
+                redirect: 'follow',
+            }
+
+            try {
+                const response = await fetch(
+                    'http://localhost:8080/rest/auth/get-orders',
+                    requestOptions
+                )
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`)
+                }
+
+                const data = await response.json()
+                const filtereNewdOrders = data.filter(
+                    (order) => order.status === 'NEW'
+                )
+                setWaitingOrders(filtereNewdOrders)
+
+                const filtereINProgressdOrders = data.filter(
+                    (order) => order.status === 'IN_PROGRESS'
+                )
+                setProgressOrders(filtereINProgressdOrders)
+
+                const filtereCompletedOrders = data.filter(
+                    (order) => order.status === 'FINISHED'
+                )
+                setCompletedOrders(filtereCompletedOrders)
+            } catch (error) {
+                console.error(error)
+            }
+        }
+
+        fetchOrders()
+    }, [])
+
+    const [waitingOrders, setWaitingOrders] = useState([])
+    const [progressOrders, setProgressOrders] = useState([])
+    const [completedOrders, setCompletedOrders] = useState([])
     const [isModalOpen, setIsModalOpen] = useState(false)
 
     function handleOndragEnd(result) {
@@ -190,17 +193,22 @@ function Orders() {
                                 {waitingOrders.map(
                                     (
                                         {
-                                            id,
                                             sweetName,
                                             quantity,
                                             price,
                                             status,
+                                            name,
+                                            telephoneNumber,
+                                            email,
+                                            date,
                                         },
                                         index
                                     ) => (
                                         <Draggable
-                                            key={id}
-                                            draggableId={id}
+                                            key={telephoneNumber + email}
+                                            draggableId={
+                                                telephoneNumber + email
+                                            }
                                             index={index}
                                         >
                                             {(provided) => (
@@ -235,17 +243,22 @@ function Orders() {
                                 {progressOrders.map(
                                     (
                                         {
-                                            id,
                                             sweetName,
                                             quantity,
                                             price,
                                             status,
+                                            name,
+                                            telephoneNumber,
+                                            email,
+                                            date,
                                         },
                                         index
                                     ) => (
                                         <Draggable
-                                            key={id}
-                                            draggableId={id}
+                                            key={telephoneNumber + email}
+                                            draggableId={
+                                                telephoneNumber + email
+                                            }
                                             index={index}
                                         >
                                             {(provided) => (
@@ -280,17 +293,22 @@ function Orders() {
                                 {completedOrders.map(
                                     (
                                         {
-                                            id,
                                             sweetName,
                                             quantity,
                                             price,
                                             status,
+                                            name,
+                                            telephoneNumber,
+                                            email,
+                                            date,
                                         },
                                         index
                                     ) => (
                                         <Draggable
-                                            key={id}
-                                            draggableId={id}
+                                            key={telephoneNumber + email}
+                                            draggableId={
+                                                telephoneNumber + email
+                                            }
                                             index={index}
                                         >
                                             {(provided) => (
