@@ -4,8 +4,6 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.DynamicUpdate;
 
-import java.time.LocalDateTime;
-
 @Getter
 @Setter
 @Entity
@@ -14,7 +12,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "cookie")
-public class Suti {
+public class Cookie {
 
     private static final long serialVersionUID = 1L;
 

@@ -1,8 +1,25 @@
+
 # Cukorvirág
 
-"Édes pillanatok,melyek virágba borítják a napod."
+"Édes pillanatok, melyek virágba borítják a napod."
 
-## Tech Stack //TODO
+## Table of Contents
+- [Introduction](#introduction)
+- [Tech Stack](#tech-stack)
+- [Authors](#authors)
+- [Run Locally](#run-locally)
+- [Screenshots](#screenshots)
+- [Logo](#logo)
+- [License](#license)
+
+## Introduction
+
+University Project 2024 - Software Development for Engineers
+
+Cukorvirág is a web application designed for a fictional bakery, simplifying order management while preserving personal communication. This application streamlines processes and supports bakers in their creative work. 🎂
+
+
+## Tech Stack
 
 **Frontend:** React, Tailwind CSS
 
@@ -19,16 +36,41 @@
 - [@Matyesz342](https://github.com/Matyesz342)
 - [@lm108109](https://github.com/lm108109)
 
-## Installation
+## Run Locally
 
-Install project with ...
+Clone the project
 
 ```bash
-   //TODO
+  git clone https://github.com/lm108109/cukorvirag.git
 ```
 
-## Appendix
+Go to the project directory
 
-Egyetemi projekt 2024 - Szoftverfejlesztés mérnököknek
+```bash
+  cd cukorvirag
+```
+
+Install dependencies
+
+```bash
+  npm install //TODO
+```
+
+Start the server
+
+```bash
+  npm run start //TODO
+```
+
+## License
+
+[MIT](https://github.com/lm108109/cukorvirag/blob/main/LICENSE.md)
+
+## Logo
 
 ![Logo](https://cdn.discordapp.com/attachments/1284489882017988669/1284554672606154822/cukorvirag_logo.png?ex=67532943&is=6751d7c3&hm=90c748f06ef184134b4759c0646a492c3ace6040bcab5166fd523839c79eeb7a&)
+
+## Screenshots
+
+![App Screenshot](https://cdn.discordapp.com/attachments/950171129530679316/1315332770901397595/image.png?ex=6757069a&is=6755b51a&hm=d006a5c4b5176f6266b0b0398d12c7b57e6afad8f3c1d29c428c5c396ee41910&)
+

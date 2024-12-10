@@ -24,8 +24,8 @@ public class Order implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "cookie_id")
-    private Long cookieId;
+    @Column(name = "sweet_name")
+    private String sweetName;
 
     @Column(name = "quantity")
     private int quantity;
@@ -34,13 +34,14 @@ public class Order implements Serializable {
     private int price;
 
     @Column(name = "status")
+    @Enumerated(EnumType.STRING)
     private OrderStatus status;
 
     @Column(name = "name")
     private String name;
 
-    @Column(name = "telefon_number")
-    private String telefonNumber;
+    @Column(name = "telephone_number")
+    private String telephoneNumber;
 
     @Column(name = "email")
     private String email;
