@@ -5,10 +5,10 @@ const RecipeItem = ({ title, description }) => {
 
     return (
         <div
-            className={`recipe-item border-2 border-black rounded-xl p-4 mb-4 transition-all duration-300 bg-custom-pink`}
+            className="border-2 border-black rounded-xl p-4 mb-4 transition-all duration-300 bg-custom-pink"
         >
-            <div className="recipe-header flex justify-between items-center">
-                <div className="recipe-title text-lg font-bold">{title}</div>
+            <div className="flex justify-between items-center">
+                <div className="text-lg font-bold">{title}</div>
                 <button
                     className="toggle-btn bg-transparent border-2 border-black rounded-lg px-3 py-1 text-sm cursor-pointer hover:bg-custom-pink transition-colors"
                     onClick={() => setExpanded(!expanded)}

@@ -5,6 +5,7 @@ function Warehouse() {
     const [sortOrder, setSortOrder] = useState('desc')
     const [sweetShopData, setSweetShopData] = useState([])
     const [searchQuery, setSearchQuery] = useState('') // State for search query
+    const [error, setError] = useState(null) // For handling errors
 
     // Filter and sort data
     const sortedData = [...sweetShopData]
@@ -35,7 +36,7 @@ function Warehouse() {
             const token = JSON.parse(localStorage.getItem('user'))?.token
 
             if (!token) {
-                console.error('No token found. Please log in.')
+                setError('No token found. Please log in.')
                 return
             }
 
@@ -64,6 +65,7 @@ function Warehouse() {
                 setSweetShopData(data)
             } catch (error) {
                 console.error(error)
+                setError(error.message)
             }
         }
 
@@ -71,20 +73,23 @@ function Warehouse() {
     }, [])
 
     return (
-        <div className="m-12 p-4 bg-gray-100 rounded-lg flex flex-col">
-            <div className="border-b-2 border-black w-full flex justify-between text-xl py-2 bg-white z-10 sticky top-0 shadow-md">
+        <>
+            <div className="flex flex-col md:flex-row md:flex-wrap md:items-center md:justify-between rounded-lg my-6 mx-5 p-5 bg-[#f7efee] border border-[#2b2b2b]">
                 {/* Search input */}
                 <input
                     type="text"
                     placeholder="Keresés"
                     className="w-full max-w-sm p-2 rounded-full text-lg bg-[#fdf9f7] my-2 md:my-0"
-                    onChange={inputHandler} // Handle input change
+                    onChange={inputHandler}
                 />
-                <div className="flex items-center">
-                    <div className="mr-2">Megnevezés</div>
+                {/* Title and Sort */}
+                <div className="flex items-center my-2">
+                    <h2 className="text-2xl font-serif text-[#5e1b13] mx-2">
+                        Receptek
+                    </h2>
                     <span
-                        className={`cursor-pointer ml-2 ${
-                            sortOrder === 'desc' ? 'arrow-down' : 'arrow-up'
+                        className={`cursor-pointer ml-2 text-lg ${
+                            sortOrder === 'desc' ? '▼' : '▲'
                         }`}
                         onClick={sortRecipes}
                     >
@@ -92,28 +97,34 @@ function Warehouse() {
                     </span>
                 </div>
                 <div className="flex items-center">
-                    <div className="mr-2">Mennyiség</div>
+                    <div className="text-2xl font-serif text-[#5e1b13] mx-2">
+                        Mennyiség
+                    </div>
                 </div>
             </div>
-            <div className="flex-grow w-full h-full overflow-y-auto bg-gray-100">
-                {sortedData.length > 0 ? (
-                    <div className="list-none">
+            <div className="font-serif bg-[#f7efee] p-5 rounded-lg my-6 mx-5 border border-[#2b2b2b] flex flex-col overflow-y-auto max-h-[400px] sm:max-h-[600px] lg:max-h-[800px]">
+                {error ? (
+                    <div className="p-5 text-center text-lg text-red-600 font-serif">
+                        {error}
+                    </div>
+                ) : sortedData.length > 0 ? (
+                    <div className="border-t border-[#5e1b13] pt-2 mt-2">
                         {sortedData.map((item, index) => (
                             <WarehouseItem
                                 key={index}
                                 product={item.product}
                                 amount={item.amount}
-                                unit={item.unit}
+                                uni={item.unit}
                             />
                         ))}
                     </div>
                 ) : (
-                    <div className="text-center">
+                    <div className="p-5 text-center text-lg text-[#5e1b13] font-serif">
                         Nincsenek a keresésnek megfelelő receptek
                     </div>
                 )}
             </div>
-        </div>
+        </>
     )
 }
 
