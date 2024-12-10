@@ -50,16 +50,36 @@ Go to the project directory
   cd cukorvirag
 ```
 
+Go to the frontend's side
+
+```bash
+  cd client/website
+```
+
 Install dependencies
 
 ```bash
-  npm install //TODO
+  npm install
 ```
-
-Start the server
+Start the frontend server
 
 ```bash
-  npm run start //TODO
+  npm start
+```
+
+Start the backendserver
+
+```bash
+  mvn spring-boot:run
+```
+
+Set up database
+```bash
+  docker-compose up
+```
+Access the database
+```bash
+  docker exec -it mysql_container mysql -u cukorvirag -p
 ```
 
 ## License
