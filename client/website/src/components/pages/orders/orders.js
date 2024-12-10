@@ -34,6 +34,7 @@ function Orders() {
                 }
 
                 const data = await response.json()
+
                 const filtereNewdOrders = data.filter(
                     (order) => order.status === 'NEW'
                 )
@@ -94,7 +95,7 @@ function Orders() {
                     setWaitingOrders,
                     waitingOrders,
                     setWaitingOrders,
-                    'Waiting for Processing'
+                    'NEW'
                 )
             else if (sourceDroppableId === 'progress')
                 moveOrder(
@@ -102,7 +103,7 @@ function Orders() {
                     setProgressOrders,
                     waitingOrders,
                     setWaitingOrders,
-                    'Waiting for Processing'
+                    'NEW'
                 )
             else
                 moveOrder(
@@ -110,7 +111,7 @@ function Orders() {
                     setCompletedOrders,
                     waitingOrders,
                     setWaitingOrders,
-                    'Waiting for Processing'
+                    'NEW'
                 )
         } else if (destinationDroppableId === 'progress') {
             if (sourceDroppableId === 'progress')
@@ -119,7 +120,7 @@ function Orders() {
                     setProgressOrders,
                     progressOrders,
                     setProgressOrders,
-                    'In Progress'
+                    'IN_PROGRESS'
                 )
             else if (sourceDroppableId === 'waiting')
                 moveOrder(
@@ -127,7 +128,7 @@ function Orders() {
                     setWaitingOrders,
                     progressOrders,
                     setProgressOrders,
-                    'In Progress'
+                    'IN_PROGRESS'
                 )
             else
                 moveOrder(
@@ -135,7 +136,7 @@ function Orders() {
                     setCompletedOrders,
                     progressOrders,
                     setProgressOrders,
-                    'In Progress'
+                    'IN_PROGRESS'
                 )
         } else if (destinationDroppableId === 'completed') {
             if (sourceDroppableId === 'completed')
@@ -144,7 +145,7 @@ function Orders() {
                     setCompletedOrders,
                     completedOrders,
                     setCompletedOrders,
-                    'Completed'
+                    'FINISHED'
                 )
             else if (sourceDroppableId === 'waiting')
                 moveOrder(
@@ -152,7 +153,7 @@ function Orders() {
                     setWaitingOrders,
                     completedOrders,
                     setCompletedOrders,
-                    'Completed'
+                    'FINISHED'
                 )
             else
                 moveOrder(
@@ -160,7 +161,7 @@ function Orders() {
                     setProgressOrders,
                     completedOrders,
                     setCompletedOrders,
-                    'Completed'
+                    'FINISHED'
                 )
         }
     }
@@ -223,6 +224,10 @@ function Orders() {
                                                         quantity={quantity}
                                                         price={price}
                                                         process={status}
+                                                        name={name}
+                                                        phone_number={
+                                                            telephoneNumber
+                                                        }
                                                     />
                                                 </div>
                                             )}
@@ -273,6 +278,10 @@ function Orders() {
                                                         quantity={quantity}
                                                         price={price}
                                                         process={status}
+                                                        name={name}
+                                                        phone_number={
+                                                            telephoneNumber
+                                                        }
                                                     />
                                                 </div>
                                             )}
@@ -323,6 +332,10 @@ function Orders() {
                                                         quantity={quantity}
                                                         price={price}
                                                         process={status}
+                                                        name={name}
+                                                        phone_number={
+                                                            telephoneNumber
+                                                        }
                                                     />
                                                 </div>
                                             )}

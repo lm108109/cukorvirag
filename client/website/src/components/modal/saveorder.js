@@ -1,13 +1,14 @@
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 const SaveOrder = ({ onClose }) => {
+    const navigate = useNavigate()
     // State for form fields
     const [sweetName, setSweetName] = useState('')
     const [quantity, setQuantity] = useState(0)
     const [price, setPrice] = useState(0)
-    const [status, setStatus] = useState('Waiting for Processing')
     const [name, setName] = useState('')
-    const [phoneNumber, setPhoneNumber] = useState('')
+    const [telephoneNumber, settelephoneNumber] = useState('')
     const [email, setEmail] = useState('')
     const [date, setDate] = useState('')
 
@@ -20,15 +21,43 @@ const SaveOrder = ({ onClose }) => {
             sweetName,
             quantity,
             price,
-            status,
             name,
-            phoneNumber,
+            telephoneNumber,
             email,
             date,
         }
 
         console.log('Form Data:', formData) // You can replace this with save logic
-        onClose() // Close the modal after submission
+
+        // Construct the query string from the form data
+        const queryString = new URLSearchParams(formData).toString()
+
+        // Define the API URL
+        const apiUrl = `http://localhost:8080/rest/auth/add-order?${queryString}`
+
+        const token = JSON.parse(localStorage.getItem('user'))?.token
+
+        // Make the API request
+        const myHeaders = new Headers()
+        myHeaders.append('accept', '*/*')
+        myHeaders.append('Authorization', `Bearer ${token}`)
+
+        const requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            redirect: 'follow',
+        }
+
+        fetch(apiUrl, requestOptions)
+            .then((response) => response.text())
+            .then((result) => {
+                console.log('Order successfully added:', result)
+                onClose()
+                navigate('/orders')
+            })
+            .catch((error) => {
+                console.error('Error adding order:', error)
+            })
     }
 
     return (
@@ -51,11 +80,12 @@ const SaveOrder = ({ onClose }) => {
                     <div className="flex flex-col gap-4">
                         <input
                             type="text"
-                            placeholder="Sweet Name"
+                            placeholder="Édesség neve"
                             value={sweetName}
                             onChange={(e) => setSweetName(e.target.value)}
                             className="border p-2 rounded"
                         />
+                        <div>Darabszám</div>
                         <input
                             type="number"
                             placeholder="Quantity"
@@ -67,25 +97,34 @@ const SaveOrder = ({ onClose }) => {
                         />
                         <input
                             type="text"
-                            placeholder="Name"
+                            placeholder="Rendelő neve"
                             value={name}
                             onChange={(e) => setName(e.target.value)}
                             className="border p-2 rounded"
                         />
+                        <div>Ár</div>
+                        <input
+                            type="number"
+                            placeholder="Price"
+                            value={price}
+                            onChange={(e) => setPrice(Number(e.target.value))}
+                            className="border p-2 rounded"
+                        />
                         <input
                             type="tel"
-                            placeholder="Phone Number"
-                            value={phoneNumber}
-                            onChange={(e) => setPhoneNumber(e.target.value)}
+                            placeholder="Telefonszám"
+                            value={telephoneNumber}
+                            onChange={(e) => settelephoneNumber(e.target.value)}
                             className="border p-2 rounded"
                         />
                         <input
                             type="email"
-                            placeholder="Email"
+                            placeholder="Email cím"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             className="border p-2 rounded"
                         />
+                        <div>Dátum</div>
                         <input
                             type="date"
                             value={date}

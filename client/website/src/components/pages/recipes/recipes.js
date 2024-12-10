@@ -48,7 +48,7 @@ const Recipes = () => {
 
             try {
                 const response = await fetch(
-                    'http://localhost:8080/rest/auth/get-sutis',
+                    'http://localhost:8080/rest/auth/get-cookies',
                     requestOptions
                 )
 
