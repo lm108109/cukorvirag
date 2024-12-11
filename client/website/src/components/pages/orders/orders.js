@@ -57,6 +57,40 @@ function Orders() {
         fetchOrders()
     }, [])
 
+    const updateOrderStatus = async (orderId, orderStatus) => {
+        const token = JSON.parse(localStorage.getItem('user'))?.token
+
+        if (!token) {
+            setError('No token found. Please log in.')
+            return
+        }
+
+        const url = `http://localhost:8080/rest/auth/update-status?orderId=${orderId}&orderStatus=${orderStatus}`
+
+        const myHeaders = new Headers()
+        myHeaders.append('accept', '*/*')
+        myHeaders.append('Authorization', `Bearer ${token}`)
+
+        const requestOptions = {
+            method: 'PUT',
+            headers: myHeaders,
+            redirect: 'follow',
+        }
+
+        try {
+            const response = await fetch(url, requestOptions)
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`)
+            }
+
+            console.log('Order status updated successfully')
+        } catch (error) {
+            console.error(error)
+            setError(error.message)
+        }
+    }
+
     const [waitingOrders, setWaitingOrders] = useState([])
     const [progressOrders, setProgressOrders] = useState([])
     const [completedOrders, setCompletedOrders] = useState([])
@@ -67,9 +101,21 @@ function Orders() {
         if (!destination) return
 
         const sourceIndex = source.index
+
         const destinationIndex = destination.index
         const sourceDroppableId = source.droppableId
         const destinationDroppableId = destination.droppableId
+
+        const getSourceOrders = () => {
+            if (sourceDroppableId === 'waiting') return waitingOrders
+            if (sourceDroppableId === 'progress') return progressOrders
+            if (sourceDroppableId === 'completed') return completedOrders
+            return []
+        }
+
+        const sourceOrders = getSourceOrders()
+
+        const draggedItemId = sourceOrders[sourceIndex].id
 
         const moveOrder = (
             sourceOrders,
@@ -79,42 +125,36 @@ function Orders() {
             newStatus
         ) => {
             const sourceItems = Array.from(sourceOrders)
-            const [movedItem] = sourceItems.splice(sourceIndex, 1)
-            movedItem.status = newStatus
-            setSourceOrders(sourceItems)
 
-            const destItems = Array.from(destOrders)
-            destItems.splice(destinationIndex, 0, movedItem)
-            setDestOrders(destItems)
+            // Validate sourceIndex and ensure movedItem exists
+            if (sourceIndex < 0 || sourceIndex >= sourceItems.length) {
+                console.error('Invalid sourceIndex:', sourceIndex)
+                return
+            }
+
+            const [movedItem] = sourceItems.splice(sourceIndex, 1)
+
+            if (!movedItem) {
+                console.error('movedItem is undefined:', movedItem)
+                return
+            }
+
+            movedItem.status = newStatus
+
+            if (sourceDroppableId === destinationDroppableId) {
+                sourceItems.splice(destinationIndex, 0, movedItem)
+                setSourceOrders(sourceItems)
+            } else {
+                setSourceOrders(sourceItems)
+
+                const destItems = Array.from(destOrders)
+                destItems.splice(destinationIndex, 0, movedItem)
+                setDestOrders(destItems)
+            }
         }
 
-        if (destinationDroppableId === 'waiting') {
-            if (sourceDroppableId === 'waiting')
-                moveOrder(
-                    waitingOrders,
-                    setWaitingOrders,
-                    waitingOrders,
-                    setWaitingOrders,
-                    'NEW'
-                )
-            else if (sourceDroppableId === 'progress')
-                moveOrder(
-                    progressOrders,
-                    setProgressOrders,
-                    waitingOrders,
-                    setWaitingOrders,
-                    'NEW'
-                )
-            else
-                moveOrder(
-                    completedOrders,
-                    setCompletedOrders,
-                    waitingOrders,
-                    setWaitingOrders,
-                    'NEW'
-                )
-        } else if (destinationDroppableId === 'progress') {
-            if (sourceDroppableId === 'progress')
+        if (destinationDroppableId === 'progress') {
+            if (sourceDroppableId === 'progress') {
                 moveOrder(
                     progressOrders,
                     setProgressOrders,
@@ -122,7 +162,8 @@ function Orders() {
                     setProgressOrders,
                     'IN_PROGRESS'
                 )
-            else if (sourceDroppableId === 'waiting')
+                updateOrderStatus(draggedItemId, 'IN_PROGRESS')
+            } else if (sourceDroppableId === 'waiting') {
                 moveOrder(
                     waitingOrders,
                     setWaitingOrders,
@@ -130,16 +171,10 @@ function Orders() {
                     setProgressOrders,
                     'IN_PROGRESS'
                 )
-            else
-                moveOrder(
-                    completedOrders,
-                    setCompletedOrders,
-                    progressOrders,
-                    setProgressOrders,
-                    'IN_PROGRESS'
-                )
+                updateOrderStatus(draggedItemId, 'IN_PROGRESS')
+            }
         } else if (destinationDroppableId === 'completed') {
-            if (sourceDroppableId === 'completed')
+            if (sourceDroppableId === 'completed') {
                 moveOrder(
                     completedOrders,
                     setCompletedOrders,
@@ -147,15 +182,8 @@ function Orders() {
                     setCompletedOrders,
                     'FINISHED'
                 )
-            else if (sourceDroppableId === 'waiting')
-                moveOrder(
-                    waitingOrders,
-                    setWaitingOrders,
-                    completedOrders,
-                    setCompletedOrders,
-                    'FINISHED'
-                )
-            else
+                updateOrderStatus(draggedItemId, 'FINISHED')
+            } else if (sourceDroppableId === 'progress') {
                 moveOrder(
                     progressOrders,
                     setProgressOrders,
@@ -163,6 +191,8 @@ function Orders() {
                     setCompletedOrders,
                     'FINISHED'
                 )
+                updateOrderStatus(draggedItemId, 'FINISHED')
+            }
         }
     }
 
@@ -194,6 +224,7 @@ function Orders() {
                                 {waitingOrders.map(
                                     (
                                         {
+                                            id,
                                             sweetName,
                                             quantity,
                                             price,
@@ -206,10 +237,8 @@ function Orders() {
                                         index
                                     ) => (
                                         <Draggable
-                                            key={telephoneNumber + email}
-                                            draggableId={
-                                                telephoneNumber + email
-                                            }
+                                            key={'' + id}
+                                            draggableId={'' + id}
                                             index={index}
                                         >
                                             {(provided) => (
@@ -248,6 +277,7 @@ function Orders() {
                                 {progressOrders.map(
                                     (
                                         {
+                                            id,
                                             sweetName,
                                             quantity,
                                             price,
@@ -260,10 +290,8 @@ function Orders() {
                                         index
                                     ) => (
                                         <Draggable
-                                            key={telephoneNumber + email}
-                                            draggableId={
-                                                telephoneNumber + email
-                                            }
+                                            key={'' + id}
+                                            draggableId={'' + id}
                                             index={index}
                                         >
                                             {(provided) => (
@@ -302,6 +330,7 @@ function Orders() {
                                 {completedOrders.map(
                                     (
                                         {
+                                            id,
                                             sweetName,
                                             quantity,
                                             price,
@@ -314,10 +343,8 @@ function Orders() {
                                         index
                                     ) => (
                                         <Draggable
-                                            key={telephoneNumber + email}
-                                            draggableId={
-                                                telephoneNumber + email
-                                            }
+                                            key={'' + id}
+                                            draggableId={'' + id}
                                             index={index}
                                         >
                                             {(provided) => (
