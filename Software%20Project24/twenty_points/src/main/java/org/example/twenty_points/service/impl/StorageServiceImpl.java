@@ -49,6 +49,7 @@ public class StorageServiceImpl implements StorageService {
             StorageDto dto = new StorageDto();
             dto.setIngredientName(storage.getIngredientName());
             dto.setQuantity(storage.getQuantity());
+            dto.setUnit(storage.getUnit());
             storageDtos.add(dto);
         });
         return storageDtos;
@@ -70,6 +71,10 @@ public class StorageServiceImpl implements StorageService {
 
     @Override
     public Boolean checkStorage(String name, Long orderId) {
+        List<Long> ids = new ArrayList<>();
+        ids.add(2L);
+        ids.add(29L);
+        ids.add(42L);
         Order order = orderRepository.findById(orderId);
         if (order == null) {
             throw new IllegalArgumentException("Order with ID " + orderId + " does not exist.");
@@ -94,7 +99,14 @@ public class StorageServiceImpl implements StorageService {
 
             Storage storage = optionalStorage.get();
 
-            double requiredQuantity = ((double) order.getQuantity() / 4) * recipe.getRequiredQuantity();
+            double requiredQuantity;
+
+            if (ids.contains(storage.getId())) {
+                requiredQuantity = storage.getQuantity();
+            }
+            else {
+                requiredQuantity = ((double) order.getQuantity() / 4) * recipe.getRequiredQuantity();
+            }
 
             if (storage.getQuantity() < requiredQuantity) {
                 return false;
@@ -110,9 +122,14 @@ public class StorageServiceImpl implements StorageService {
 
             Storage storage = optionalStorage.get();
 
-            double requiredQuantity = ((double) order.getQuantity() / 4) * recipe.getRequiredQuantity();
+            if (ids.contains(storage.getId())) {
+                storage.setQuantity(storage.getQuantity() - recipe.getRequiredQuantity());
+            }
+            else {
+                double requiredQuantity = ((double) order.getQuantity() / 4) * recipe.getRequiredQuantity();
 
-            storage.setQuantity( storage.getQuantity() - requiredQuantity);
+                storage.setQuantity( storage.getQuantity() - requiredQuantity);
+            }
 
             storageRepository.save(storage);
         }

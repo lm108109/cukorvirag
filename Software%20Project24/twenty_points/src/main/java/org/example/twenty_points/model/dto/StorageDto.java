@@ -15,6 +15,8 @@ public class StorageDto {
 
     private Double quantity;
 
+    private String unit;
+
     public StorageDto(Storage storage) {
         this.name = storage.getIngredientName();
         this.quantity = storage.getQuantity();
