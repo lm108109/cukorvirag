@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-const SaveOrder = ({ onClose }) => {
+const SaveOrder = ({ onClose, onSave }) => {
     const navigate = useNavigate()
     // State for form fields
     const [sweetName, setSweetName] = useState('')
@@ -51,8 +51,9 @@ const SaveOrder = ({ onClose }) => {
         fetch(apiUrl, requestOptions)
             .then((response) => response.text())
             .then((result) => {
-                console.log('Order successfully added:', result)
+                // console.log('Order successfully added:', result)
                 onClose()
+                onSave()
                 navigate('/orders')
             })
             .catch((error) => {

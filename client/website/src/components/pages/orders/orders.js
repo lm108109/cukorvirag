@@ -4,56 +4,60 @@ import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 import SaveOrder from '../../modal/saveorder'
 
 function Orders() {
-    useEffect(() => {
-        const fetchOrders = async () => {
-            const token = JSON.parse(localStorage.getItem('user'))?.token
+    const fetchOrders = async () => {
+        const token = JSON.parse(localStorage.getItem('user'))?.token
 
-            if (!token) {
-                console.error('No token found. Please log in.')
-                return
-            }
-
-            const myHeaders = new Headers()
-            myHeaders.append('accept', '*/*')
-            myHeaders.append('Authorization', `Bearer ${token}`)
-
-            const requestOptions = {
-                method: 'GET',
-                headers: myHeaders,
-                redirect: 'follow',
-            }
-
-            try {
-                const response = await fetch(
-                    'http://localhost:8080/rest/auth/get-orders',
-                    requestOptions
-                )
-
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`)
-                }
-
-                const data = await response.json()
-
-                const filtereNewdOrders = data.filter(
-                    (order) => order.status === 'NEW'
-                )
-                setWaitingOrders(filtereNewdOrders)
-
-                const filtereINProgressdOrders = data.filter(
-                    (order) => order.status === 'IN_PROGRESS'
-                )
-                setProgressOrders(filtereINProgressdOrders)
-
-                const filtereCompletedOrders = data.filter(
-                    (order) => order.status === 'FINISHED'
-                )
-                setCompletedOrders(filtereCompletedOrders)
-            } catch (error) {
-                console.error(error)
-            }
+        if (!token) {
+            console.error('No token found. Please log in.')
+            return
         }
 
+        const myHeaders = new Headers()
+        myHeaders.append('accept', '*/*')
+        myHeaders.append('Authorization', `Bearer ${token}`)
+
+        const requestOptions = {
+            method: 'GET',
+            headers: myHeaders,
+            redirect: 'follow',
+        }
+
+        try {
+            const response = await fetch(
+                'http://localhost:8080/rest/auth/get-orders',
+                requestOptions
+            )
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`)
+            }
+
+            const data = await response.json()
+
+            const filtereNewdOrders = data.filter(
+                (order) => order.status === 'NEW'
+            )
+            setWaitingOrders(filtereNewdOrders)
+
+            const filtereINProgressdOrders = data.filter(
+                (order) => order.status === 'IN_PROGRESS'
+            )
+            setProgressOrders(filtereINProgressdOrders)
+
+            const filtereCompletedOrders = data.filter(
+                (order) => order.status === 'FINISHED'
+            )
+            setCompletedOrders(filtereCompletedOrders)
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
+    const refreshOrders = () => {
+        fetchOrders()
+    }
+
+    useEffect(() => {
         fetchOrders()
     }, [])
 
@@ -385,7 +389,9 @@ function Orders() {
             </button>
 
             {/* Render Modal */}
-            {isModalOpen && <SaveOrder onClose={toggleModal} />}
+            {isModalOpen && (
+                <SaveOrder onClose={toggleModal} onSave={refreshOrders} />
+            )}
         </div>
     )
 }
