@@ -16,6 +16,7 @@ function Warehouse() {
         .map((item) => ({
             product: item.name,
             amount: item.quantity,
+            unit: item.unit,
         }))
         .sort((a, b) => {
             return sortOrder === 'asc'
@@ -114,7 +115,7 @@ function Warehouse() {
                                 key={index}
                                 product={item.product}
                                 amount={item.amount}
-                                uni={item.unit}
+                                unit={item.unit}
                             />
                         ))}
                     </div>
